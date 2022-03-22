@@ -19,7 +19,7 @@ public class GenreController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddGenre([FromBody]Add_UpdateGenreRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddGenre([FromBody]AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
         try
         {
@@ -34,7 +34,7 @@ public class GenreController : ControllerBase
     [HttpPut("{genreId}")]
     public async Task<IActionResult> UpdateGenre(
         Guid genreId,
-        [FromBody]Add_UpdateGenreRequest request,
+        [FromBody]AddUpdateGenreRequest request,
         CancellationToken cancellationToken)
     {
         try

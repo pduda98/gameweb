@@ -19,7 +19,7 @@ public class GenreService : IGenreService
         _logger = logger;
     }
 
-    public async Task<Add_UpdateGenreResponse> AddGenre(Add_UpdateGenreRequest request, CancellationToken cancellationToken)
+    public async Task<AddUpdateGenreResponse> AddGenre(AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
         Genre genre = new Genre()
         {
@@ -28,9 +28,9 @@ public class GenreService : IGenreService
         };
         var result = _context.AddAsync<Genre>(genre, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return new Add_UpdateGenreResponse(result.Result.Entity);
+        return new AddUpdateGenreResponse(result.Result.Entity);
     }
-    public async Task<Add_UpdateGenreResponse> UpdateGenre(Guid id, Add_UpdateGenreRequest request, CancellationToken cancellationToken)
+    public async Task<AddUpdateGenreResponse> UpdateGenre(Guid id, AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
         Genre? genre = await _context.Genres.FirstOrDefaultAsync(a => a.Guid == id, cancellationToken);
         if (genre == null)
@@ -40,7 +40,7 @@ public class GenreService : IGenreService
         genre.Name = request.Name ?? genre.Name;
         var result = _context.Genres.Update(genre);
         await _context.SaveChangesAsync(cancellationToken);
-        return new Add_UpdateGenreResponse(result.Entity);
+        return new AddUpdateGenreResponse(result.Entity);
     }
     public async Task RemoveGenre(Guid id, CancellationToken cancellationToken)
     {
@@ -54,14 +54,22 @@ public class GenreService : IGenreService
     }
     public async Task<GenresListResponse> GetGenres(int? page, int? limit, CancellationToken cancellationToken)
     {
-        return new GenresListResponse()
+        List<string> genres;
+
+        if (page != null && limit != null && limit != 0)
         {
-            Genres = await _context.Genres
-                .OrderBy(a => a.Name)
+            genres = await _context.Genres
+                .Skip((page.Value - 1) * limit.Value)
+                .Take(limit.Value)
                 .Select(a => a.Name)
-                .Skip(page * limit ?? default(int))
-                .Take(limit ?? default(int))
-                .ToListAsync(cancellationToken)
-        };
+                .ToListAsync(cancellationToken);
+        }
+        else
+        {
+            genres = await _context.Genres
+                .Select(a => a.Name)
+                .ToListAsync(cancellationToken);
+        }
+        return new GenresListResponse(genres);
     }
 }

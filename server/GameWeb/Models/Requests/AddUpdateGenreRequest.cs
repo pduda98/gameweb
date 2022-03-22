@@ -1,6 +1,6 @@
 namespace GameWeb.Models.Requests;
 
-public class Add_UpdateGenreRequest
+public class AddUpdateGenreRequest
 {
 	public string Name { get; set; } = null!;
 }
