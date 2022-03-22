@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GameWeb.Models.Entities
+﻿namespace GameWeb.Models.Entities
 {
     public partial class Game
     {
