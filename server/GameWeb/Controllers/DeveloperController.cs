@@ -71,7 +71,7 @@ public class DeveloperController : ControllerBase
     {
         try
         {
-            await _developerService.GetDevelopers(0, 0, cancellationToken);
+            await _developerService.RemoveDeveloper(developerId, cancellationToken);
             return NoContent();
         }
         catch (EntityNotFoundException)

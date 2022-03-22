@@ -7,10 +7,11 @@
             Games = new HashSet<Game>();
         }
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string Name { get; set; } = null!;
         public int? EstablishmentYear { get; set; }
         public string? Description { get; set; }
+        public string? Location { get; set; }
         public string? WebAddress { get; set; }
         public Guid Guid { get; set; }
 

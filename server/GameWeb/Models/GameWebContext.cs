@@ -40,12 +40,15 @@ namespace GameWeb.Models
                 entity.ToTable("developer");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Description)
                     .IsUnicode(false)
                     .HasColumnName("description");
+
+                entity.Property(e => e.Location)
+                    .IsUnicode(false)
+                    .HasColumnName("location");
 
                 entity.Property(e => e.EstablishmentYear).HasColumnName("establishment_year");
 
@@ -67,7 +70,6 @@ namespace GameWeb.Models
                 entity.ToTable("game");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.DeveloperId).HasColumnName("developer_id");
@@ -95,7 +97,6 @@ namespace GameWeb.Models
                 entity.ToTable("game_genre");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.GameId).HasColumnName("game_id");
@@ -120,7 +121,6 @@ namespace GameWeb.Models
                 entity.ToTable("genre");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Guid).HasColumnName("guid");
@@ -135,10 +135,9 @@ namespace GameWeb.Models
                 entity.ToTable("rating");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
-                entity.Property(e => e.ReviewId).HasColumnName("review_id");
+                entity.Property(e => e.GameId).HasColumnName("game_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -149,6 +148,12 @@ namespace GameWeb.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_rating_user_id");
+
+                entity.HasOne(d => d.Game)
+                    .WithMany(p => p.Ratings)
+                    .HasForeignKey(d => d.GameId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_rating_game_id");
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -156,7 +161,6 @@ namespace GameWeb.Models
                 entity.ToTable("review");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.CreationTime)
@@ -207,7 +211,6 @@ namespace GameWeb.Models
                 entity.ToTable("user");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Email)
@@ -240,7 +243,6 @@ namespace GameWeb.Models
                 entity.ToTable("user_role");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Description)

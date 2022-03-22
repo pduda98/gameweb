@@ -6,8 +6,8 @@ public class DevelopersListResponse
 {
 	public List<DeveloperProjection> Developers { get; set; } = null!;
 
-    public DevelopersListResponse()
+    public DevelopersListResponse(List<DeveloperProjection> developers)
     {
-        Developers = new List<DeveloperProjection>();
+        Developers = developers;
     }
 }
