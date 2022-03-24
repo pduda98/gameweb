@@ -36,7 +36,7 @@ public class JwtHelper : IJwtHelper
         var refreshToken = new RefreshToken
         {
             Token = GetUniqueToken(),
-            ExpirationDate = DateTime.UtcNow.AddDays(7),
+            ExpirationTime = DateTime.UtcNow.AddDays(7),
             UserId = userId
         };
 
