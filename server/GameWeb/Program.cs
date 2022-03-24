@@ -1,3 +1,6 @@
+using GameWeb.Helpers;
+using GameWeb.Helpers.Interfaces;
+using GameWeb.Middleware;
 using GameWeb.Models;
 using GameWeb.Services;
 using GameWeb.Services.Interfaces;
@@ -11,9 +14,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DbContext
 builder.Services.AddDbContext<GameWebContext>();
+
+// Services
 builder.Services.AddScoped<IDeveloperService, DeveloperService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+// Helpers
+builder.Services.AddScoped<IUserHelper, UserHelper>();
+builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
 var app = builder.Build();
 
@@ -27,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using GameWeb.Models.Entities;
-using System;
+using GameWeb.Helpers;
 
 namespace GameWeb.Models
 {
@@ -28,7 +28,7 @@ namespace GameWeb.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? throw new ArgumentException();
+                string connectionString = Environment.GetEnvironmentVariable(Consts.ConnectionStringEnvVarName) ?? throw new ArgumentException();
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }

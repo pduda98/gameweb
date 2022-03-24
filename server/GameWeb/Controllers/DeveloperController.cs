@@ -1,4 +1,8 @@
+using System.Security.Authentication;
 using GameWeb.Exceptions;
+using GameWeb.Helpers;
+using GameWeb.Helpers.Interfaces;
+using GameWeb.Models.Entities;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +14,16 @@ namespace GameWeb.Controllers;
 public class DeveloperController : ControllerBase
 {
     private readonly IDeveloperService _developerService;
+    private readonly IUserHelper _userHelper;
     private readonly ILogger<DeveloperController> _logger;
 
-    public DeveloperController(IDeveloperService developerService, ILogger<DeveloperController> logger)
+    public DeveloperController(
+        IDeveloperService developerService,
+        IUserHelper userHelper,
+        ILogger<DeveloperController> logger)
     {
         _developerService = developerService;
+        _userHelper = userHelper;
         _logger = logger;
     }
 
@@ -58,7 +67,17 @@ public class DeveloperController : ControllerBase
     {
         try
         {
-            return Ok(await _developerService.GetDeveloper(developerId, cancellationToken));
+            long? userId;
+            try
+            {
+                var user = _userHelper.GetUserFromHttpContext(HttpContext);
+                userId = user.Id;   
+            }
+            catch (AuthenticationException)
+            {
+                userId = null;
+            }
+            return Ok(await _developerService.GetDeveloper(developerId, userId, cancellationToken));
         }
         catch (EntityNotFoundException)
         {

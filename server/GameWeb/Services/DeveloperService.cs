@@ -1,4 +1,5 @@
 using GameWeb.Exceptions;
+using GameWeb.Helpers.Interfaces;
 using GameWeb.Models;
 using GameWeb.Models.Entities;
 using GameWeb.Models.Projections;
@@ -12,11 +13,13 @@ namespace GameWeb.Services;
 public class DeveloperService : IDeveloperService
 {
     private readonly GameWebContext _context;
+    private readonly IUserHelper _userHelper;
     private readonly ILogger<DeveloperService> _logger;
 
-    public DeveloperService(GameWebContext context, ILogger<DeveloperService> logger)
+    public DeveloperService(GameWebContext context, IUserHelper userHelper, ILogger<DeveloperService> logger)
     {
         _context = context;
+        _userHelper = userHelper;
         _logger = logger;
     }
 
@@ -41,7 +44,7 @@ public class DeveloperService : IDeveloperService
         };
     }
 
-    public async Task<DeveloperResponse> GetDeveloper(Guid id, CancellationToken cancellationToken)
+    public async Task<DeveloperResponse> GetDeveloper(Guid id, long? userId, CancellationToken cancellationToken)
     {
         DeveloperResponse? dev = await _context.Developers
             .Where(x => x.Guid == id)
@@ -62,6 +65,7 @@ public class DeveloperService : IDeveloperService
                     Id = g.Guid,
                     Name = g.Name,
                     AverageRating = Convert.ToInt64(g.Ratings.Select(r => r.Value).Average()),
+                    UsersRating = _userHelper.GetUsersGameRating(g, userId),
                     Genres = g.GameGenres.Select(y => y.Genre.Name).ToList(),
                 }).ToList()
             })
