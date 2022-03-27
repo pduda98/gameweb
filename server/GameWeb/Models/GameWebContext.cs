@@ -162,7 +162,6 @@ namespace GameWeb.Models
                 entity.ToTable("refresh_token");
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.ExpirationTime)

@@ -1,6 +1,6 @@
+using GameWeb.Authorization;
 using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
-using GameWeb.Middleware;
 using GameWeb.Models;
 using GameWeb.Services;
 using GameWeb.Services.Interfaces;
@@ -36,8 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.UseMiddleware<JwtMiddleware>();
 

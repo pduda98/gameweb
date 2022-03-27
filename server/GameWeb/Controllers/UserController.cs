@@ -1,12 +1,12 @@
 namespace WebApi.Controllers;
 
 using System.Security.Authentication;
+using GameWeb.Authorization;
 using GameWeb.Exceptions;
 using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize]
@@ -97,6 +97,20 @@ public class UserController : ControllerBase
         catch (NotAuthorizedException)
         {
             return Unauthorized();
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("sign-up")]
+    public async Task<IActionResult> SignUpAccount(SignUpRequest request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _userService.AddUser(request, cancellationToken));
+        }
+        catch (Exception)
+        {
+            return BadRequest();
         }
     }
 
