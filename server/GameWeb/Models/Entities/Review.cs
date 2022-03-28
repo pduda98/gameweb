@@ -9,11 +9,9 @@
         public DateTime? LastUpdateTime { get; set; }
         public long UserId { get; set; }
         public long GameId { get; set; }
-        public long? RatingId { get; set; }
         public Guid Guid { get; set; }
 
         public virtual Game Game { get; set; } = null!;
-        public virtual Rating? Rating { get; set; }
         public virtual User User { get; set; } = null!;
     }
 }
