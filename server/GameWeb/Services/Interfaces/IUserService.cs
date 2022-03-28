@@ -11,5 +11,5 @@ public interface IUserService
     Task<SignInResponse> RefreshToken(string? token, CancellationToken cancellationToken);
     Task ChangeUsersPassword(long userId, ChangePasswordRequest request, CancellationToken cancellationToken);
     Task DeactivateAccount(long userId, DeactivateAccountRequest request, CancellationToken cancellationToken);
-    User GetUserById(long userId);
+    Task<User?> GetUserById(long userId);
 }

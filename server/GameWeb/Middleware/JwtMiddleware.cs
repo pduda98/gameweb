@@ -2,7 +2,7 @@ using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
 using GameWeb.Services.Interfaces;
 
-namespace GameWeb.Middleware;
+namespace GameWeb.Authorization;
 
 public class JwtMiddleware
 {
@@ -19,7 +19,7 @@ public class JwtMiddleware
         var userId = jwtHelper.ValidateJwtToken(token);
         if (userId != null)
         {
-            context.Items[Consts.ContextItemUserInfoName] = userService.GetUserById(userId.Value);
+            context.Items[Consts.ContextItemUserInfoName] = await userService.GetUserById(userId.Value);
         }
 
         await _next(context);
