@@ -66,6 +66,7 @@ public class GameService : IGameService
             Id = game.Guid,
             Name = game.Name,
             Description = game.Description,
+            ReleaseDate = game.ReleaseDate,
             Genres = request.Genres,
             Developer = new GameDeveloperProjection
             {
@@ -87,23 +88,37 @@ public class GameService : IGameService
         }
 
         //DeveloperId update
+        Developer? dev;
         if(request.DeveloperId != null)
         {
-            long? devId = await _context.Developers
+            dev = await _context.Developers
                 .Where(x => x.Guid == request.DeveloperId)
-                .Select(x => x.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            game.DeveloperId = devId ?? game.DeveloperId;
+            if(dev == null)
+            {
+                throw new EntityNotFoundException();
+            }
+            game.DeveloperId = dev.Id ?? game.DeveloperId;
+        }
+        else
+        {
+            dev = await _context.Developers
+                .Where(x => x.Id == game.DeveloperId)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         //GameGenres update
         if(request.Genres != null)
         {
-            //Co jeśli poda nazwę gatunku, który nie istnieje?
             var updatedGenres = await _context.Genres
                 .Where(x => request.Genres.Any(y => y == x.Name))
                 .ToListAsync(cancellationToken);
+
+            if(updatedGenres.Count != request.Genres.Count)
+            {
+                throw new EntityNotFoundException();
+            }
 
             var toRemove = game.GameGenres.Where(x => !updatedGenres.Any(y => y.Id == x.GenreId)).ToList();
             var toAdd = updatedGenres.Where(x => !game.GameGenres.Any(y => y.GenreId == x.Id))
@@ -123,16 +138,10 @@ public class GameService : IGameService
                 game.GameGenres.Add(val);
             }
         }
-
-        var dev = await _context.Developers
-            .Where(x => x.Id == game.DeveloperId)
-            .FirstOrDefaultAsync(cancellationToken);
-
         if(dev == null)
         {
             throw new EntityNotFoundException();
         }
-
         game.Name = request.Name ?? game.Name;
         game.Description = request.Description ?? game.Description;
         game.ReleaseDate = request.ReleaseDate ?? game.ReleaseDate;
@@ -143,6 +152,7 @@ public class GameService : IGameService
             Id = game.Guid,
             Name = game.Name,
             Description = game.Description,
+            ReleaseDate = game.ReleaseDate,
             Genres = request.Genres,
             Developer = new GameDeveloperProjection
             {
@@ -151,4 +161,47 @@ public class GameService : IGameService
             }
         };
     }
+
+    public async Task RemoveGame(Guid id, CancellationToken cancellationToken)
+    {
+        Game? game = await _context.Games.FirstOrDefaultAsync(a => a.Guid == id, cancellationToken);
+        if (game == null)
+        {
+            throw new EntityNotFoundException();
+        }
+        var result = _context.Games.Remove(game);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<GameResponse> GetGame(Guid id, long? userId, CancellationToken cancellationToken)
+    {
+        GameResponse? game = await _context.Games
+            .Where(x => x.Guid == id)
+            .Include(x => x.Ratings.Where(y => y.GameId == x.Id))
+            .Include(x => x.Developer)
+            .Include(x => x.GameGenres)
+            .Select(x => new GameResponse
+            {
+                Id = x.Guid,
+                Name = x.Name,
+                Description = x.Description,
+                ReleaseDate = x.ReleaseDate,
+                AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
+                //UsersRating = _userHelper.GetUsersGameRating(x, userId),
+                Developer = new GameDeveloperProjection
+                {
+                    Id = x.Developer.Guid,
+                    Name = x.Developer.Name
+                },
+                Genres = x.GameGenres.Select(y => y.Genre.Name).ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (game == null)
+        {
+            throw new EntityNotFoundException();
+        }
+        return game;
+    }
+
 }

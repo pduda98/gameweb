@@ -57,4 +57,32 @@ public class GameController : ControllerBase
             return NotFound();
         }
     }
+
+    [HttpGet("{gameId}")]
+    public async Task<IActionResult> GetGame(Guid gameId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            //var user = _userHelper.GetUserFromHttpContext(HttpContext);
+            return Ok(await _gameService.GetGame(gameId, null, cancellationToken));
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpDelete("{gameId}")]
+    public async Task<IActionResult> RemoveGame(Guid gameId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _gameService.RemoveGame(gameId, cancellationToken);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
 }
