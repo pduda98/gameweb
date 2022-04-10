@@ -1,4 +1,5 @@
 using GameWeb.Exceptions;
+using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
 using GameWeb.Models;
 using GameWeb.Models.Entities;
@@ -144,7 +145,7 @@ public class ReviewService : IReviewService
         if (review == null || review.Game.Guid != gameId)
             throw new EntityNotFoundException();
 
-        if (user.Role.Name != "admin" && review.UserId != user.Id)
+        if (user.Role.Name != Consts.UserAdminRoleName && review.UserId != user.Id)
             throw new NotAuthorizedException();
 
         _context.Reviews.Remove(review);
@@ -165,7 +166,7 @@ public class ReviewService : IReviewService
         if (review == null || review.Game.Guid != gameId)
             throw new EntityNotFoundException();
 
-        if (user.Role.Name != "admin" && review.UserId != user.Id)
+        if (user.Role.Name != Consts.UserAdminRoleName && review.UserId != user.Id)
             throw new NotAuthorizedException();
 
         await AddOrUpdateRating(review.Game, user, request.Rating, cancellationToken);

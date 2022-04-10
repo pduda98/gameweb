@@ -2,7 +2,7 @@ using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
 using GameWeb.Services.Interfaces;
 
-namespace GameWeb.Authorization;
+namespace GameWeb.Middleware;
 
 public class JwtMiddleware
 {

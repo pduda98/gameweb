@@ -52,6 +52,7 @@ public class DeveloperService : IDeveloperService
                 .ThenInclude(g => g.Ratings)
             .Include(x => x.Games)
                 .ThenInclude(g => g.GameGenres)
+                    .ThenInclude(g => g.Genre)
             .Select(x => new DeveloperResponse
             {
                 Id = x.Guid,
@@ -107,6 +108,7 @@ public class DeveloperService : IDeveloperService
                     Name = x.Name,
                     Description = x.Description,
                     EstablishmentYear = x.EstablishmentYear,
+                    Location = x.Location,
                     WebAddress = x.WebAddress
                 })
                 .ToListAsync(cancellationToken);

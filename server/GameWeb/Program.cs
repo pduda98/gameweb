@@ -1,6 +1,7 @@
 using GameWeb.Authorization;
 using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
+using GameWeb.Middleware;
 using GameWeb.Models;
 using GameWeb.Services;
 using GameWeb.Services.Interfaces;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IDeveloperService, DeveloperService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 // Helpers
 builder.Services.AddScoped<IUserHelper, UserHelper>();

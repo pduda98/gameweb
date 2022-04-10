@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameWeb.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/games/{gameId}/reviews")]
 public class ReviewController : ControllerBase
@@ -26,7 +27,6 @@ public class ReviewController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> AddReview(Guid gameId, [FromBody]AddReviewRequest request, CancellationToken cancellationToken)
     {
@@ -41,7 +41,6 @@ public class ReviewController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPut("{reviewId}")]
     public async Task<IActionResult> UpdateReview(
         Guid gameId,
@@ -64,6 +63,7 @@ public class ReviewController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetReviews(Guid gameId, int? page, int? limit, CancellationToken cancellationToken)
     {
@@ -77,6 +77,7 @@ public class ReviewController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet("{reviewId}")]
     public async Task<IActionResult> GetReview(Guid gameId, Guid reviewId, CancellationToken cancellationToken)
     {
@@ -100,7 +101,6 @@ public class ReviewController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpDelete("{reviewId}")]
     public async Task<IActionResult> RemoveReview(Guid gameId, Guid reviewId, CancellationToken cancellationToken)
     {
