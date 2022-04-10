@@ -70,7 +70,9 @@ public class UserService : IUserService
 
     public async Task<User?> GetUserById(long userId)
     {
-        return await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        return await _context.Users
+            .Include(x => x.Role)
+            .FirstOrDefaultAsync(x => x.Id == userId);
     }
 
     public Task<SignInResponse> RefreshToken(string? token, CancellationToken cancellationToken)

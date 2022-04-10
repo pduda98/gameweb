@@ -151,6 +151,6 @@ public class DeveloperService : IDeveloperService
         return new AddDeveloperResponse
         {
             Id = dev.Guid
-        };   
+        };
     }
 }
