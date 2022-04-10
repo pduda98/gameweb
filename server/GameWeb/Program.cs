@@ -21,6 +21,7 @@ builder.Services.AddDbContext<GameWebContext>();
 builder.Services.AddScoped<IDeveloperService, DeveloperService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 // Helpers
 builder.Services.AddScoped<IUserHelper, UserHelper>();

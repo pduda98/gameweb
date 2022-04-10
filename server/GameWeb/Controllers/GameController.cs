@@ -1,0 +1,60 @@
+using System.Security.Authentication;
+using GameWeb.Exceptions;
+using GameWeb.Models.Requests;
+using GameWeb.Services.Interfaces;
+using GameWeb.Helpers.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace GameWeb.Controllers;
+
+[ApiController]
+[Route("api/v1/games")]
+public class GameController : ControllerBase
+{
+    private readonly IGameService _gameService;
+    private readonly IUserHelper _userHelper;
+    private readonly ILogger<GameController> _logger;
+
+    public GameController(
+        IGameService gameService,
+        IUserHelper userHelper,
+        ILogger<GameController> logger)
+    {
+        _gameService = gameService;
+        _userHelper = userHelper;
+        _logger = logger;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddGame([FromBody]AddGameRequest request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _gameService.AddGame(request, cancellationToken));
+        }
+        catch(BadRequestException)
+        {
+            return BadRequest();
+        }
+        catch(EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPut("{gameId}")]
+    public async Task<IActionResult> UpdateGame(
+        Guid gameId,
+        [FromBody]UpdateGameRequest request,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _gameService.UpdateGame(gameId, request, cancellationToken));
+        }
+        catch(EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+}

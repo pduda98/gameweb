@@ -21,17 +21,28 @@ public class GenreService : IGenreService
 
     public async Task<AddUpdateGenreResponse> AddGenre(AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
+        if(string.IsNullOrEmpty(request.Name) || string.IsNullOrWhiteSpace(request.Name))
+        {
+            throw new BadRequestException();
+        }
+
         Genre genre = new Genre()
         {
             Name = request.Name,
             Guid = Guid.NewGuid()
         };
-        var result = _context.AddAsync<Genre>(genre, cancellationToken);
+        var result = await _context.AddAsync<Genre>(genre, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return new AddUpdateGenreResponse(result.Result.Entity);
+        return new AddUpdateGenreResponse(result.Entity);
     }
+
     public async Task<AddUpdateGenreResponse> UpdateGenre(Guid id, AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
+        if(string.IsNullOrEmpty(request.Name) || string.IsNullOrWhiteSpace(request.Name))
+        {
+            throw new BadRequestException();
+        }
+
         Genre? genre = await _context.Genres.FirstOrDefaultAsync(a => a.Guid == id, cancellationToken);
         if (genre == null)
         {
@@ -42,6 +53,7 @@ public class GenreService : IGenreService
         await _context.SaveChangesAsync(cancellationToken);
         return new AddUpdateGenreResponse(result.Entity);
     }
+
     public async Task RemoveGenre(Guid id, CancellationToken cancellationToken)
     {
         Genre? genre = await _context.Genres.FirstOrDefaultAsync(a => a.Guid == id, cancellationToken);
@@ -52,6 +64,7 @@ public class GenreService : IGenreService
         var result = _context.Genres.Remove(genre);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
     public async Task<GenresListResponse> GetGenres(int? page, int? limit, CancellationToken cancellationToken)
     {
         List<string> genres;

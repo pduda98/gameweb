@@ -58,6 +58,7 @@ namespace GameWeb.Models
                     .HasColumnName("location");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
@@ -83,6 +84,7 @@ namespace GameWeb.Models
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
@@ -136,6 +138,7 @@ namespace GameWeb.Models
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("name");
             });
@@ -181,6 +184,7 @@ namespace GameWeb.Models
                     .HasColumnName("expiration_time");
 
                 entity.Property(e => e.Token)
+                    .IsRequired()
                     .IsUnicode(false)
                     .HasColumnName("token");
 
@@ -248,6 +252,7 @@ namespace GameWeb.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("email");
@@ -255,11 +260,13 @@ namespace GameWeb.Models
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
 
                 entity.Property(e => e.PasswordHash)
+                    .IsRequired()
                     .IsUnicode(false)
                     .HasColumnName("password_hash");
 
@@ -287,6 +294,7 @@ namespace GameWeb.Models
                     .HasColumnName("description");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
