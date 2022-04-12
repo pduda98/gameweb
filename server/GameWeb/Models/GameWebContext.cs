@@ -96,7 +96,6 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Developer)
                     .WithMany(p => p.Games)
                     .HasForeignKey(d => d.DeveloperId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_developer_id");
             });
 
@@ -116,13 +115,11 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.GameGenres)
                     .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_genre_game_id");
 
                 entity.HasOne(d => d.Genre)
                     .WithMany(p => p.GameGenres)
                     .HasForeignKey(d => d.GenreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_genre_genre_id");
             });
 
@@ -161,13 +158,11 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_rating_user_id");
+                    .HasConstraintName("FK_rating_game_id");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_rating_user");
             });
 
@@ -175,8 +170,7 @@ namespace GameWeb.Models
             {
                 entity.ToTable("refresh_token");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ExpirationTime)
                     .HasColumnType("datetime")
@@ -192,7 +186,6 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.RefreshTokens)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_refresh_token_user");
             });
 
@@ -231,13 +224,12 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_review_game_id");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_review_user_id");
             });
 
@@ -274,7 +266,7 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_user_user_role");
             });
 

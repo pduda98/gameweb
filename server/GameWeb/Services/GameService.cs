@@ -13,9 +13,9 @@ public class GameService : IGameService
 {
     private readonly GameWebContext _context;
     private readonly IUserHelper _userHelper;
-    private readonly ILogger<GenreService> _logger;
+    private readonly ILogger<GameService> _logger;
 
-    public GameService(GameWebContext context, IUserHelper userHelper, ILogger<GenreService> logger)
+    public GameService(GameWebContext context, IUserHelper userHelper, ILogger<GameService> logger)
     {
         _context = context;
         _userHelper = userHelper;
@@ -28,7 +28,7 @@ public class GameService : IGameService
             .Where(x => x.Guid == request.DeveloperId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if(dev == null)
+        if (dev == null)
         {
             throw new EntityNotFoundException();
         }
@@ -49,7 +49,7 @@ public class GameService : IGameService
                 .Select(x => x.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if(genreId == null)
+            if (genreId == null)
             {
                 throw new EntityNotFoundException();
             }
@@ -89,13 +89,13 @@ public class GameService : IGameService
 
         //DeveloperId update
         Developer? dev;
-        if(request.DeveloperId != null)
+        if (request.DeveloperId != null)
         {
             dev = await _context.Developers
                 .Where(x => x.Guid == request.DeveloperId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if(dev == null)
+            if (dev == null)
             {
                 throw new EntityNotFoundException();
             }
@@ -109,13 +109,13 @@ public class GameService : IGameService
         }
 
         //GameGenres update
-        if(request.Genres != null)
+        if (request.Genres != null)
         {
             var updatedGenres = await _context.Genres
                 .Where(x => request.Genres.Any(y => y == x.Name))
                 .ToListAsync(cancellationToken);
 
-            if(updatedGenres.Count != request.Genres.Count)
+            if (updatedGenres.Count != request.Genres.Count)
             {
                 throw new EntityNotFoundException();
             }
@@ -127,18 +127,18 @@ public class GameService : IGameService
                     GenreId = x.Id
                 }).ToList();
 
-            foreach(var val in toRemove)
+            foreach (var val in toRemove)
             {
                 _context.GameGenres.Remove(val);
                 game.GameGenres.Remove(val);
             }
 
-            foreach(var val in toAdd)
+            foreach (var val in toAdd)
             {
                 game.GameGenres.Add(val);
             }
         }
-        if(dev == null)
+        if (dev == null)
         {
             throw new EntityNotFoundException();
         }
