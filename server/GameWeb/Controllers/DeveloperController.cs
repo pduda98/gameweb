@@ -1,14 +1,14 @@
 using System.Security.Authentication;
+using GameWeb.Authorization;
 using GameWeb.Exceptions;
-using GameWeb.Helpers;
 using GameWeb.Helpers.Interfaces;
-using GameWeb.Models.Entities;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameWeb.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/developers")]
 public class DeveloperController : ControllerBase
@@ -27,6 +27,7 @@ public class DeveloperController : ControllerBase
         _logger = logger;
     }
 
+    [AuthorizeAdmin]
     [HttpPost]
     public async Task<IActionResult> AddDeveloper([FromBody]AddDeveloperRequest request, CancellationToken cancellationToken)
     {
@@ -40,6 +41,7 @@ public class DeveloperController : ControllerBase
         }
     }
 
+    [AuthorizeAdmin]
     [HttpPut("{developerId}")]
     public async Task<IActionResult> UpdateDeveloper(
         Guid developerId,
@@ -56,12 +58,14 @@ public class DeveloperController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetDevelopers(int? page, int? limit, CancellationToken cancellationToken)
     {
         return Ok(await _developerService.GetDevelopers(page, limit, cancellationToken));
     }
 
+    [AllowAnonymous]
     [HttpGet("{developerId}")]
     public async Task<IActionResult> GetDeveloper(Guid developerId, CancellationToken cancellationToken)
     {
@@ -85,6 +89,7 @@ public class DeveloperController : ControllerBase
         }
     }
 
+    [AuthorizeAdmin]
     [HttpDelete("{developerId}")]
     public async Task<IActionResult> RemoveDeveloper(Guid developerId, CancellationToken cancellationToken)
     {

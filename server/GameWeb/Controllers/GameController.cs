@@ -1,12 +1,13 @@
-using System.Security.Authentication;
 using GameWeb.Exceptions;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
 using GameWeb.Helpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using GameWeb.Authorization;
 
 namespace GameWeb.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/games")]
 public class GameController : ControllerBase
@@ -25,6 +26,7 @@ public class GameController : ControllerBase
         _logger = logger;
     }
 
+    [AuthorizeAdmin]
     [HttpPost]
     public async Task<IActionResult> AddGame([FromBody]AddGameRequest request, CancellationToken cancellationToken)
     {
@@ -42,6 +44,7 @@ public class GameController : ControllerBase
         }
     }
 
+    [AuthorizeAdmin]
     [HttpPut("{gameId}")]
     public async Task<IActionResult> UpdateGame(
         Guid gameId,

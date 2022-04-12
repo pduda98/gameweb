@@ -5,8 +5,8 @@
         public User()
         {
             Ratings = new HashSet<Rating>();
-            Reviews = new HashSet<Review>();
             RefreshTokens = new HashSet<RefreshToken>();
+            Reviews = new HashSet<Review>();
         }
 
         public long Id { get; set; }
@@ -18,7 +18,7 @@
 
         public virtual UserRole Role { get; set; } = null!;
         public virtual ICollection<Rating> Ratings { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

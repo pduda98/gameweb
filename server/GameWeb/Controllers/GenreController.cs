@@ -1,3 +1,4 @@
+using GameWeb.Authorization;
 using GameWeb.Exceptions;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameWeb.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/genres")]
 public class GenreController : ControllerBase
@@ -18,6 +20,7 @@ public class GenreController : ControllerBase
         _logger = logger;
     }
 
+    [AuthorizeAdmin]
     [HttpPost]
     public async Task<IActionResult> AddGenre([FromBody]AddUpdateGenreRequest request, CancellationToken cancellationToken)
     {
@@ -31,6 +34,7 @@ public class GenreController : ControllerBase
         }
     }
 
+    [AuthorizeAdmin]
     [HttpPut("{genreId}")]
     public async Task<IActionResult> UpdateGenre(
         Guid genreId,
@@ -51,6 +55,7 @@ public class GenreController : ControllerBase
         }
     }
 
+    [AuthorizeAdmin]
     [HttpDelete("{genreId}")]
     public async Task<IActionResult> RemoveGenre(Guid genreId, CancellationToken cancellationToken)
     {
@@ -65,6 +70,7 @@ public class GenreController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetGenres(int? page, int? limit, CancellationToken cancellationToken)
     {
