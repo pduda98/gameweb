@@ -6,6 +6,7 @@ using GameWeb.Models;
 using GameWeb.Services;
 using GameWeb.Services.Interfaces;
 
+OnStartConfigurationHelper.Configure();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

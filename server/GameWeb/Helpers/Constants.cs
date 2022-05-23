@@ -8,4 +8,5 @@ static public class Consts
     public const string AuthorizationHeaderName = "Authorization";
     public const string ConnectionStringEnvVarName = "CONNECTION_STRING";
     public const string TokenSecretEnvVarName = "TOKEN_SECRET";
+    public const string DefaultNumberOfLastReviewsEnvVarName = "LAST_REVIEWS_NUMBER";
 }
