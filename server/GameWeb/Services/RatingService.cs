@@ -2,6 +2,7 @@ using GameWeb.Models;
 using GameWeb.Models.Requests;
 using GameWeb.Models.Entities;
 using GameWeb.Exceptions;
+using GameWeb.Helpers;
 using GameWeb.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +56,9 @@ public class RatingService : IRatingService
             throw new EntityNotFoundException();
         }
 
+        if (rating.UserId != user.Id)
+            throw new NotAuthorizedException();
+
         if (request.Value < 0 || request.Value > 10)
         {
             throw new BadRequestException();
@@ -74,6 +78,9 @@ public class RatingService : IRatingService
         {
             throw new EntityNotFoundException();
         }
+
+        if (user.Role.Name != Consts.UserAdminRoleName && rating.UserId != user.Id)
+            throw new NotAuthorizedException();
 
         _context.Ratings.Remove(rating);
         await _context.SaveChangesAsync(cancellationToken);

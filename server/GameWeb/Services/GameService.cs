@@ -99,7 +99,7 @@ public class GameService : IGameService
             {
                 throw new EntityNotFoundException();
             }
-            game.DeveloperId = dev.Id ?? game.DeveloperId;
+            game.DeveloperId = dev.Id;
         }
         else
         {
@@ -177,9 +177,9 @@ public class GameService : IGameService
     {
         GameResponse? game = await _context.Games
             .Where(x => x.Guid == id)
-            .Include(x => x.Ratings.Where(y => y.GameId == x.Id))
             .Include(x => x.Developer)
             .Include(x => x.GameGenres)
+            .Include(x => x.Ratings)
             .Select(x => new GameResponse
             {
                 Id = x.Guid,
@@ -187,7 +187,8 @@ public class GameService : IGameService
                 Description = x.Description,
                 ReleaseDate = x.ReleaseDate,
                 AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
-                //UsersRating = _userHelper.GetUsersGameRating(x, userId),
+                RatingsCount = x.Ratings.Count(),
+                UsersRating = _userHelper.GetUsersGameRating(x, userId),
                 Developer = new GameDeveloperProjection
                 {
                     Id = x.Developer.Guid,
@@ -203,5 +204,68 @@ public class GameService : IGameService
         }
         return game;
     }
+    public async Task<GamesListResponse> GetGames(
+        int? page,
+        int? limit,
+        int? year,
+        long? userId,
+        string? genre,
+        CancellationToken cancellationToken)
+    {
+        List<GameListProjection> games;
+        var query = _context.Games.Include(x => x.Ratings).Include(x => x.GameGenres).ThenInclude(x => x.Genre).AsQueryable();
 
+        if (genre != null)
+        {
+            query = query.Where(x => x.GameGenres.Any(y => y.Genre.Name == genre));
+        }
+
+        if (year != null)
+        {
+            query = query.Where(x => x.ReleaseDate.Year == year);
+        }
+
+        if (page != null && limit != null)
+        {
+            query = query.Skip((page.Value - 1) * limit.Value).Take(limit.Value);
+        }
+
+        games = await query.Select(x => new GameListProjection
+                {
+                    Id = x.Guid,
+                    Name = x.Name,
+                    AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
+                    UsersRating = _userHelper.GetUsersGameRating(x, userId),
+                    Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
+                })
+                .OrderBy(x => x.AverageRating)
+                .ToListAsync(cancellationToken);
+        // if (userId != null)
+        // {
+        //      games = await query.Select(x => new GameListProjection
+        //         {
+        //             Id = x.Guid,
+        //             Name = x.Name,
+        //             AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
+        //             UsersRating = _userHelper.GetUsersGameRating(x, userId),
+        //             Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
+        //         })
+        //         .OrderBy(x => x.AverageRating)
+        //         .ToListAsync(cancellationToken);
+        // }
+        // else
+        // {
+        //     games = await query.Select(x => new GameListProjection
+        //         {
+        //             Id = x.Guid,
+        //             Name = x.Name,
+        //             AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
+        //             Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
+        //         })
+        //         .OrderBy(x => x.AverageRating)
+        //         .ToListAsync(cancellationToken);
+        // }
+
+        return new GamesListResponse(games);
+    }
 }

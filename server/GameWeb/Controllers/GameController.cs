@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using GameWeb.Exceptions;
 using GameWeb.Models.Requests;
 using GameWeb.Services.Interfaces;
@@ -61,13 +62,23 @@ public class GameController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet("{gameId}")]
     public async Task<IActionResult> GetGame(Guid gameId, CancellationToken cancellationToken)
     {
         try
         {
-            //var user = _userHelper.GetUserFromHttpContext(HttpContext);
-            return Ok(await _gameService.GetGame(gameId, null, cancellationToken));
+            long? userId;
+            try
+            {
+                var user = _userHelper.GetUserFromHttpContext(HttpContext);
+                userId = user.Id;
+            }
+            catch (AuthenticationException)
+            {
+                userId = null;
+            }
+            return Ok(await _gameService.GetGame(gameId, userId, cancellationToken));
         }
         catch (EntityNotFoundException)
         {
@@ -75,6 +86,31 @@ public class GameController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetGames(int? page, int? limit, int? year, string? genre, CancellationToken cancellationToken)
+    {
+        try
+        {
+            long? userId;
+            try
+            {
+                var user = _userHelper.GetUserFromHttpContext(HttpContext);
+                userId = user.Id;
+            }
+            catch (AuthenticationException)
+            {
+                userId = null;
+            }
+            return Ok(await _gameService.GetGames(page, limit, year, userId, genre, cancellationToken));
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [AuthorizeAdmin]
     [HttpDelete("{gameId}")]
     public async Task<IActionResult> RemoveGame(Guid gameId, CancellationToken cancellationToken)
     {

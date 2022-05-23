@@ -12,7 +12,7 @@
         public long Id { get; set; }
         public string Name { get; set; } = null!;
         public DateTime ReleaseDate { get; set; }
-        public long? DeveloperId { get; set; }
+        public long DeveloperId { get; set; }
         public Guid Guid { get; set; }
         public string? Description { get; set; }
 

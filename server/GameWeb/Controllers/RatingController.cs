@@ -1,3 +1,4 @@
+using GameWeb.Authorization;
 using GameWeb.Exceptions;
 using GameWeb.Models.Requests;
 using GameWeb.Helpers.Interfaces;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameWeb.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/games/{gameId}/ratings")]
 public class RatingController : ControllerBase
@@ -60,6 +62,10 @@ public class RatingController : ControllerBase
         catch(EntityNotFoundException)
         {
             return NotFound();
+        }
+        catch (NotAuthorizedException)
+        {
+            return Unauthorized();
         }
     }
 
