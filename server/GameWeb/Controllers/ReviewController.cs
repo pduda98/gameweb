@@ -10,7 +10,7 @@ namespace GameWeb.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/v1/games/{gameId}/reviews")]
+[Route("api/v1")]
 public class ReviewController : ControllerBase
 {
     private readonly IReviewService _ReviewService;
@@ -27,7 +27,7 @@ public class ReviewController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
+    [HttpPost("games/{gameId}/reviews")]
     public async Task<IActionResult> AddReview(Guid gameId, [FromBody]AddReviewRequest request, CancellationToken cancellationToken)
     {
         try
@@ -41,7 +41,7 @@ public class ReviewController : ControllerBase
         }
     }
 
-    [HttpPut("{reviewId}")]
+    [HttpPut("games/{gameId}/reviews/{reviewId}")]
     public async Task<IActionResult> UpdateReview(
         Guid gameId,
         Guid reviewId,
@@ -64,12 +64,12 @@ public class ReviewController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet]
-    public async Task<IActionResult> GetReviews(Guid gameId, int? page, int? limit, CancellationToken cancellationToken)
+    [HttpGet("reviews")]
+    public async Task<IActionResult> GetLastReviews(int? limit, CancellationToken cancellationToken)
     {
         try
         {
-            return Ok(await _ReviewService.GetReviews(gameId, page, limit, cancellationToken));
+            return Ok(await _ReviewService.GetLastReviews(limit, cancellationToken));
         }
         catch (EntityNotFoundException)
         {
@@ -78,7 +78,21 @@ public class ReviewController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet("{reviewId}")]
+    [HttpGet("games/{gameId}/reviews")]
+    public async Task<IActionResult> GetGameReviews(Guid gameId, int? page, int? limit, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _ReviewService.GetGameReviews(gameId, page, limit, cancellationToken));
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpGet("games/{gameId}/reviews/{reviewId}")]
     public async Task<IActionResult> GetReview(Guid gameId, Guid reviewId, CancellationToken cancellationToken)
     {
         try
@@ -101,7 +115,7 @@ public class ReviewController : ControllerBase
         }
     }
 
-    [HttpDelete("{reviewId}")]
+    [HttpDelete("games/{gameId}/reviews/{reviewId}")]
     public async Task<IActionResult> RemoveReview(Guid gameId, Guid reviewId, CancellationToken cancellationToken)
     {
         try

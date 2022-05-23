@@ -16,7 +16,10 @@ public interface IReviewService
         Guid reviewId,
         long? userId,
         CancellationToken cancellationToken);
-    Task<ReviewsListResponse> GetReviews(
+    Task<LastReviewsListResponse> GetLastReviews(
+        int? limit,
+        CancellationToken cancellationToken);
+    Task<ReviewsListResponse> GetGameReviews(
         Guid gameId,
         int? page,
         int? limit,

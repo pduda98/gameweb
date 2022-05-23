@@ -20,7 +20,7 @@ public class JwtHelper : IJwtHelper
     public string GenerateJwtToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable(Consts.TokenSecretEnvVarName) ?? throw new ArgumentException());
+        var key = Encoding.ASCII.GetBytes(Configuration.TokenSecret ?? throw new ArgumentException());
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
@@ -49,7 +49,7 @@ public class JwtHelper : IJwtHelper
             return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable(Consts.TokenSecretEnvVarName) ?? throw new ArgumentException());
+        var key = Encoding.ASCII.GetBytes(Configuration.TokenSecret ?? throw new ArgumentException());
         try
         {
             tokenHandler.ValidateToken(token, new TokenValidationParameters
