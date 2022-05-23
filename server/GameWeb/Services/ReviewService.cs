@@ -91,7 +91,7 @@ public class ReviewService : IReviewService
         return review;
     }
 
-    public async Task<ReviewsListResponse> GetReviews(Guid gameId, int? page, int? limit, CancellationToken cancellationToken)
+    public async Task<ReviewsListResponse> GetGameReviews(Guid gameId, int? page, int? limit, CancellationToken cancellationToken)
     {
         if (!await _context.Games.AnyAsync(x => x.Guid == gameId, cancellationToken))
             throw new EntityNotFoundException();
@@ -101,6 +101,7 @@ public class ReviewService : IReviewService
         if (page != null && limit != null && limit != 0)
         {
             reviews = await _context.Reviews
+                .OrderByDescending(x => x.CreationTime)
                 .Skip((page.Value - 1) * limit.Value)
                 .Take(limit.Value)
                 .Include(x => x.Game)
@@ -119,6 +120,7 @@ public class ReviewService : IReviewService
         else
         {
             reviews = await _context.Reviews
+                .OrderByDescending(x => x.CreationTime)
                 .Include(x => x.Game)
                 .Include(x => x.User)
                     .ThenInclude(x => x.Ratings)
@@ -182,6 +184,49 @@ public class ReviewService : IReviewService
             GameId = gameId,
             ReviewId = reviewId
         }; 
+    }
+
+    public async Task<LastReviewsListResponse> GetLastReviews(int? limit, CancellationToken cancellationToken)
+    {
+        if (limit == null || limit == 0)
+        {
+            limit = Configuration.DefaultNumberOfLastReviews ?? throw new ArgumentException();
+        }
+        List<LastReviewsListProjection> reviews = await _context.Reviews
+            .OrderByDescending(x => x.CreationTime)
+            .Take(limit.Value)
+            .Include(x => x.Game)
+                .ThenInclude(x => x.Ratings.Where(y => y.GameId == x.Id))
+            .Include(x => x.Game)
+                .ThenInclude(x => x.Developer)
+            .Include(x => x.Game)
+                .ThenInclude(x => x.GameGenres)
+            .Include(x => x.User)
+                .ThenInclude(x => x.Ratings)
+            .Select(x => new LastReviewsListProjection
+            {
+                Title = x.Title,
+                CreationTime = x.CreationTime,
+                UserName = x.User.Name,
+                Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id)
+                    ? x.User.Ratings.First(y => y.GameId == x.Game.Id).Value : null,
+                Game = new LastReviewListGameProjection
+                {
+                    Id = x.Game.Guid,
+                    Name = x.Game.Name,
+                    ReleaseYear = x.Game.ReleaseDate.Year,
+                    AverageRating = Convert.ToInt64(x.Game.Ratings.Select(r => r.Value).Average()),
+                    Developer = new GameDeveloperProjection
+                    {
+                        Id = x.Game.Developer.Guid,
+                        Name = x.Game.Developer.Name
+                    },
+                    Genres = x.Game.GameGenres.Select(y => y.Genre.Name).ToList(),
+                    RatingsCount = x.Game.Ratings.Count
+                }
+            })
+            .ToListAsync(cancellationToken);
+        return new LastReviewsListResponse(reviews);
     }
 
     private async Task AddOrUpdateRating(Game game, User user, int? rating, CancellationToken cancellationToken)
