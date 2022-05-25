@@ -1,0 +1,17 @@
+
+.navbar_inner ul{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+.navbar_inner li{
+    font-size: 1.3em;
+    text-align: center;
+    margin-inline: 0.5em;
+    padding-inline: .5rem;
+    border-radius: 3rem;
+}
+.navbar_inner li:hover{
+    cursor: pointer;
+    background-color: black;
+}
