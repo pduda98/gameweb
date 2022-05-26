@@ -1,9 +1,13 @@
+import Header from "../../components/Header/Header";
 import LastReviewsListComponent from "./LastReviewsList";
 
 const MainView = () => (
-    <div id="content">
-        <LastReviewsListComponent />
-    </div>
+    <>
+        <Header />
+        <div id="content">
+            <LastReviewsListComponent />
+        </div>
+    </>
 );
 
 export default MainView;

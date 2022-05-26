@@ -4,6 +4,6 @@ export interface LastReviewsList {
     reviews: LastReviewProjection[]
 }
 
-export interface GamesList {
+export interface TopGamesList {
     games: GamesListProjection[]
 }
