@@ -20,10 +20,16 @@ const LastReviewsListComponent: React.FC = () => {
     }
     console.log(result);
     let reviews = result.reviews;
-    let lastReview = reviews[0];
     return (
         <div>
-            {lastReview.title}
+
+        {reviews.flatMap(({ title, creationTime, userName , rating }) => (
+            [
+                <div>{title}</div>,
+                <div>{creationTime}, {userName}</div>,
+                <div>{rating}</div>
+            ]
+            ))}
         </div>
     )
 }
