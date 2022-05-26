@@ -205,6 +205,8 @@ public class ReviewService : IReviewService
                 .ThenInclude(x => x.Ratings)
             .Select(x => new LastReviewsListProjection
             {
+                Content = x.ReviewContent,
+                Id = x.Guid,
                 Title = x.Title,
                 CreationTime = x.CreationTime,
                 UserName = x.User.Name,

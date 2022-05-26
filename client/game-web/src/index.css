@@ -19,7 +19,7 @@ code {
   min-height: calc(100vh);
   max-width: 106em;
   margin: 0 auto;
-  margin-top: 6rem;
+  
 }
 
 #element {
@@ -28,3 +28,46 @@ code {
   margin-bottom: 0.5em;
   position: relative;
 }
+
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  background-color: rgb(38, 50, 77);
+  margin-top: 30px;
+  }
+  
+  .div1 { grid-area: 1 / 1 / 6 / 5; margin-top: 30px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div2 { grid-area: 6 / 1 / 8 / 5; color: rgb(193, 191, 191);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div3 { grid-area: 8 / 1 / 11 / 5; color: rgb(193, 191, 191);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div4 { grid-area: 1 / 5 / 2 / 11; color: rgb(132, 197, 251);
+    margin-top: 30px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div5 { grid-area: 2 / 5 / 3 / 11; color: rgb(132, 197, 251);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div6 { grid-area: 3 / 5 / 4 / 11; color: rgb(132, 197, 251);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div7 { grid-area: 4 / 5 / 5 / 11; color: rgb(193, 191, 191);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
+  .div8 { grid-area: 5 / 5 / 11 / 11; color: rgb(193, 191, 191);
+    margin-top: 10px;
+    margin-right: 150px;
+    margin-left: 80px;}
