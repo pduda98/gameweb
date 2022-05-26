@@ -22,3 +22,11 @@ export interface GameDeveloperProjection {
     id : string,
     name : string,
 }
+
+export interface GamesListProjection {
+    id : string,
+    name : string,
+    averageRating: number,
+    usersRating: number,
+    genres: string[]
+}
