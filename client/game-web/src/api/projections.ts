@@ -1,8 +1,10 @@
 export interface LastReviewProjection {
+    id : string,
     title : string,
     creationTime: string;
     userName : string,
     rating : number,
+    content: string,
     game :LastReviewGameProjection
 }
 
