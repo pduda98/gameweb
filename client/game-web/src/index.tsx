@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
+import { MainView } from './views';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,12 +17,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Header />
-    <div id="content">
-      <div className="panel panel-default">
-      <div className="panel-body">A Basic Panel
-      </div>
-      </div>
-    </div>
+    <MainView />
   </React.StrictMode>
   
 );
