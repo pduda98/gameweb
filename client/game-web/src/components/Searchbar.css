@@ -3,6 +3,9 @@
     margin-right: 10em;
     width: 60px;
 }
+#search{
+    margin-right: 10px;
+}
 
 .search {
     width: 25%;
@@ -21,6 +24,7 @@
     flex: 1;
     border: none;
     font-size: 1.3em;
+    margin-left: 5px;
     padding-left: 2%;
     padding-right: 2%;
 
