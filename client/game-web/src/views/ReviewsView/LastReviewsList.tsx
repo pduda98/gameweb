@@ -1,4 +1,4 @@
-import { LastReviewsList } from '../../api/responses';
+import { LastReviewsList } from 'api/responses';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +13,7 @@ const LastReviewsListComponent: React.FC = () => {
     useEffect(() => {
         api.get<LastReviewsList>('https://localhost:7205/api/v1/reviews').then(res => setResult(res.data))
     }, [])
-    
+
 
     if (result === null){
         return <div/>;
@@ -24,11 +24,11 @@ const LastReviewsListComponent: React.FC = () => {
         <div>
 
         {reviews.flatMap(({ title, content, userName , rating, game, }) => (
-            [   
+            [
                 <div className="parent">
                 <div className="div1"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="300"/></div>
                 <div className="div2"> <b>{game.averageRating}</b> from {game.ratingsCount} ratings</div>
-                <div className="div3"> 
+                <div className="div3">
                     <p><b>Genres:</b></p><br></br>
                     {game.genres.map((genre) =>
                         <p>{genre}</p>

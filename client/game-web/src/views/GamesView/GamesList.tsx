@@ -1,6 +1,7 @@
-import { TopGamesList } from '../../api/responses';
+import { TopGamesList } from 'api/responses';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
+import './GamesList.css'
 
 const GamesList: React.FC = () => {
     const [result, setResult] = useState<TopGamesList | null>(null);
@@ -23,13 +24,22 @@ const GamesList: React.FC = () => {
     return (
         <div>
 
-        {/* {reviews.flatMap(({ title, creationTime, userName , rating }) => (
+        { games.flatMap(({ name, averageRating, usersRating, genres}) => (
             [
-                <div>{title}</div>,
-                <div>{creationTime}, {userName}</div>,
-                <div>{rating}</div>
+                <div className="game">
+                    <div className="image"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="300"/></div>
+                    <div className="title"><h1>{name}</h1></div>
+                    <div className="averageRating"><b>Average rating: {averageRating}</b></div>
+                    <div className="userRating"><b>Your rating: {usersRating}</b></div>
+                    <div className="genres">
+                        <p><b>Genres:</b></p>
+                        {genres.map((genre) =>
+                            <h3>{genre}</h3>
+                        )}
+                    </div>
+                </div>
             ]
-            ))} */}
+            ))}
         </div>
     )
 }

@@ -1,25 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "modules/Header/Header";
+import LastReviewsListComponent from "views/ReviewsView/LastReviewsList";
+import GamesListComponent from "views/GamesView/GamesList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+    <BrowserRouter>
+        <Header />
+        <div id="content">
+            <Routes>
+                <Route path="/games" element={<GamesListComponent />}/>
+                <Route path="/developers" element={<LastReviewsListComponent />}/>
+                <Route path="/genres" element={<GamesListComponent />}/>
+                <Route path="/" element={<LastReviewsListComponent />} />
+            </Routes>
+        </div>
+    </BrowserRouter>
+);
 
 export default App;

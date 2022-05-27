@@ -1,0 +1,15 @@
+.game {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) 0.5fr repeat(6, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: rgb(0, 20, 66);
+    margin-top: 30px;
+    }
+
+.image { grid-area: 2 / 2 / 9 / 6; }
+.title { grid-area: 2 / 7 / 3 / 12; color: rgb(132, 197, 251)}
+.averageRating { grid-area: 4 / 7 / 5 / 12; color: rgb(193, 191, 191); }
+.userRating { grid-area: 5 / 7 / 6 / 12; color: rgb(193, 191, 191);}
+.genres { grid-area: 7 / 7 / 9 / 12; color: rgb(193, 191, 191);}

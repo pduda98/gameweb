@@ -1,5 +1,5 @@
-
 .navbar_inner ul{
+    padding-top: 3rem;
     list-style-type: none;
     display: flex;
     align-items: center;
@@ -14,4 +14,16 @@
 .navbar_inner li:hover{
     cursor: pointer;
     background-color: black;
+}
+.navbar_inner li > a:focus {
+    color:red;
+}
+.navbar_inner li > .active{
+    color:red;
+}
+.login{
+    align-items: flex-end;
+    font-size: 2.3em;
+    border-radius: 3rem;
+    text-align: right;
 }

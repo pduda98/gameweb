@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import Logo from './logo.svg';
 import "./Searchbar.css"
 
@@ -7,7 +8,7 @@ const Searchbar=() =>{
     return (
         <>
             <div className="logo">
-                <img src={Logo} alt="Logo" title="Logo" />
+                <NavLink to="/" style={{ textDecoration: 'none' }}><img src={Logo} alt="Logo" title="Logo" /></NavLink>
             </div>
             <div className="search">
                 <input
