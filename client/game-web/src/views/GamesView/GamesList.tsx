@@ -8,7 +8,7 @@ const GamesList: React.FC = () => {
     const [result, setResult] = useState<TopGamesList | null>(null);
 
     useEffect(() => {
-        api.get<TopGamesList>('https://localhost:7205/api/v1/games').then(res => setResult(res.data))
+        api.get<TopGamesList>('games').then(res => setResult(res.data))
     }, [])
 
 

@@ -6,7 +6,7 @@ const LastReviewsListComponent: React.FC = () => {
     const [result, setResult] = useState<LastReviewsList | null>(null);
 
     useEffect(() => {
-        api.get<LastReviewsList>('https://localhost:7205/api/v1/reviews').then(res => setResult(res.data))
+        api.get<LastReviewsList>('reviews').then(res => setResult(res.data))
     }, [])
 
 

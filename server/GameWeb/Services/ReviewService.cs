@@ -112,7 +112,7 @@ public class ReviewService : IReviewService
                     Title = x.Title,
                     CreationTime = x.CreationTime,
                     UserName = x.User.Name,
-                    Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id) 
+                    Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id)
                         ? x.User.Ratings.First(y => y.GameId == x.Game.Id).Value : null
                 })
                 .ToListAsync(cancellationToken);
@@ -126,10 +126,12 @@ public class ReviewService : IReviewService
                     .ThenInclude(x => x.Ratings)
                 .Select(x => new ReviewListProjection
                 {
+                    Id = x.Guid,
                     Title = x.Title,
+                    Content = x.ReviewContent,
                     CreationTime = x.CreationTime,
                     UserName = x.User.Name,
-                    Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id) 
+                    Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id)
                         ? x.User.Ratings.First(y => y.GameId == x.Game.Id).Value : null
                 })
                 .ToListAsync(cancellationToken);

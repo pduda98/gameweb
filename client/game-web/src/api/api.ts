@@ -10,6 +10,6 @@ interface AccessTokenInStorage {
 }
 
 export const api = axios.create({
-    baseURL: 'https://localhost:7205/api/v1',
+    baseURL: 'https://localhost:7205/api/v1/',
     responseType: 'json',
 });
