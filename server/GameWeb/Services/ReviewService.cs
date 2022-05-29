@@ -101,6 +101,7 @@ public class ReviewService : IReviewService
         if (page != null && limit != null && limit != 0)
         {
             reviews = await _context.Reviews
+                .Where(x => x.Game.Guid == gameId)
                 .OrderByDescending(x => x.CreationTime)
                 .Skip((page.Value - 1) * limit.Value)
                 .Take(limit.Value)
@@ -120,6 +121,7 @@ public class ReviewService : IReviewService
         else
         {
             reviews = await _context.Reviews
+                .Where(x => x.Game.Guid == gameId)
                 .OrderByDescending(x => x.CreationTime)
                 .Include(x => x.Game)
                 .Include(x => x.User)

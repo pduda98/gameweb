@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Game.css'
 import {api} from 'api/index';
+import imagePath from "..\\public\\gamecover.jpg"
 
 const Game: React.FC = () => {
     const [resultGame, setResultGame] = useState<GameResponse | null>(null);
@@ -22,8 +23,8 @@ const Game: React.FC = () => {
     let reviews = resultReviews?.reviews;
     return (
         <div>
-            <div className="singleGame">
-                <div className="image"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="300"/></div>
+            <div className="singleGame" key={game.id}>
+                <div className="image"><img src={imagePath} alt="nfs" width="250" height="300"/></div>
                 <div className="title">
                     <h2>{game.name}</h2><br></br>
                     {game.releaseDate.toString()}

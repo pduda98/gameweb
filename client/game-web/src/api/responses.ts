@@ -23,3 +23,12 @@ export interface GameResponse {
 export interface GameReviewsList {
     reviews: GameReviewsListProjection[]
 }
+export interface DeveloperResponse {
+	id: string,
+	name: string,
+	description: string,
+	location: string
+	establishmentYear: number,
+	webAddress: string,
+	games: GamesListProjection[]
+}
