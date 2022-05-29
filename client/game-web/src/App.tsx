@@ -3,6 +3,7 @@ import Header from "modules/Header/Header";
 import LastReviewsListComponent from "views/ReviewsView/LastReviewsList";
 import GamesList from "views/GamesView/GamesList";
 import Game from "views/GameView/Game";
+import Developer from "views/DeveloperView/Developer";
 
 const App = () => (
     <BrowserRouter>
@@ -12,6 +13,7 @@ const App = () => (
                 <Route path="/games" element={<GamesList />}/>
                 <Route path="/games/:id" element={<Game />}/>
                 <Route path="/developers" element={<LastReviewsListComponent />}/>
+                <Route path="/developers/:id" element={<Developer />}/>
                 <Route path="/genres" element={<GamesList />}/>
                 <Route path="/" element={<LastReviewsListComponent />} />
             </Routes>

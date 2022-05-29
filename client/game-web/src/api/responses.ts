@@ -19,3 +19,14 @@ export interface GameResponse {
     genres: string[],
     developer: GameDeveloperProjection
 }
+
+
+export interface DeveloperResponse {
+	id: string,
+	name: string,
+	description: string,
+	location: string
+	establishmentYear: number,
+	webAddress: string,
+	games: GamesListProjection[]
+}
