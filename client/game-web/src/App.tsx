@@ -4,6 +4,7 @@ import LastReviewsListComponent from "views/ReviewsView/LastReviewsList";
 import GamesList from "views/GamesView/GamesList";
 import Game from "views/GameView/Game";
 import Developer from "views/DeveloperView/Developer";
+import LogIn from "views/LogInView/LogIn";
 
 const App = () => (
     <BrowserRouter>
@@ -15,6 +16,7 @@ const App = () => (
                 <Route path="/developers" element={<LastReviewsListComponent />}/>
                 <Route path="/developers/:id" element={<Developer />}/>
                 <Route path="/genres" element={<GamesList />}/>
+                <Route path="/login" element={<LogIn />}/>
                 <Route path="/" element={<LastReviewsListComponent />} />
             </Routes>
         </div>
