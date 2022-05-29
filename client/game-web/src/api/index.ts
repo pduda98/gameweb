@@ -1,4 +1,4 @@
 import './api';
 
 export * from './responses';
-export * from './api';
+export {api} from './api';
