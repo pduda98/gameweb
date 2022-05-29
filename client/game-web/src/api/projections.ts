@@ -30,3 +30,10 @@ export interface GamesListProjection {
     usersRating: number,
     genres: string[]
 }
+
+export interface DevelopersListProjection {
+    id: string,
+    name: string,
+    location: string
+    establishmentYear: number
+}

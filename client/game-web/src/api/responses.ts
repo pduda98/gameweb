@@ -1,4 +1,4 @@
-import { LastReviewProjection, GamesListProjection, GameDeveloperProjection } from './projections';
+import { LastReviewProjection, GamesListProjection, GameDeveloperProjection, DevelopersListProjection } from './projections';
 
 export interface LastReviewsList {
     reviews: LastReviewProjection[]
@@ -6,6 +6,14 @@ export interface LastReviewsList {
 
 export interface TopGamesList {
     games: GamesListProjection[]
+}
+
+export interface DevelopersList {
+    developers: DevelopersListProjection[]
+}
+
+export interface GenresList {
+    genres: string[]
 }
 
 export interface GameResponse {

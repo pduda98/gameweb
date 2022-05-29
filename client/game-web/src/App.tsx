@@ -4,6 +4,8 @@ import LastReviewsListComponent from "views/ReviewsView/LastReviewsList";
 import GamesList from "views/GamesView/GamesList";
 import Game from "views/GameView/Game";
 import Developer from "views/DeveloperView/Developer";
+import DevelopersListView from "views/DevelopersView/DevelopersList";
+import GenresListView from "views/GenresView/GenresListView";
 
 const App = () => (
     <BrowserRouter>
@@ -12,9 +14,9 @@ const App = () => (
             <Routes>
                 <Route path="/games" element={<GamesList />}/>
                 <Route path="/games/:id" element={<Game />}/>
-                <Route path="/developers" element={<LastReviewsListComponent />}/>
+                <Route path="/developers" element={<DevelopersListView />}/>
                 <Route path="/developers/:id" element={<Developer />}/>
-                <Route path="/genres" element={<GamesList />}/>
+                <Route path="/genres" element={<GenresListView />}/>
                 <Route path="/" element={<LastReviewsListComponent />} />
             </Routes>
         </div>
