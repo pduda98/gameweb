@@ -32,3 +32,8 @@ export interface DeveloperResponse {
 	webAddress: string,
 	games: GamesListProjection[]
 }
+
+export interface SignInResponse {
+    token: string,
+    refreshToken: string,
+}

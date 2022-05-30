@@ -2,7 +2,7 @@ import { GameResponse, GameReviewsList } from 'api/responses';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Game.css'
-import {api} from 'api/index';
+import {api, getJwtToken} from 'api/index';
 import imagePath from "..\\public\\gamecover.jpg"
 
 const Game: React.FC = () => {
@@ -10,8 +10,11 @@ const Game: React.FC = () => {
     const [resultReviews, setResultReviews] = useState<GameReviewsList | null>(null);
     const { id } = useParams();
 
+    const config = {
+        headers: { Authorization: `Bearer ${getJwtToken()}` }
+    };
     useEffect(() => {
-        api.get<GameResponse>(`games/${id}`).then(res => setResultGame(res.data))
+        api.get<GameResponse>(`games/${id}`,config).then(res => setResultGame(res.data))
         api.get<GameReviewsList>(`games/${id}/reviews`).then(res => setResultReviews(res.data))
     }, [])
 
@@ -30,8 +33,9 @@ const Game: React.FC = () => {
                     {game.releaseDate.toString()}
                 </div>
                 <div className="ratings">
-                    Your rating: {game.usersRating}
-                    <b>{game.averageRating}</b> from {game.ratingsCount} ratings
+                    {(game.usersRating != null) ? `Your rating: ${game.usersRating}` : "No rating"}
+                    <br></br>
+                    <b>Average rating: {game.averageRating}</b> from {game.ratingsCount} ratings
                 </div>
                 <div className="genres">
                     <p><b>Genres:</b></p><br></br>
