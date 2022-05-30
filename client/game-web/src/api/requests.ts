@@ -1,5 +1,4 @@
-export interface CreateUserResponse {
-    token: string;
-    refreshToken: string;
-    expiresOn: string;
+export interface SignInRequest {
+    username: string;
+    password: string;
 }
