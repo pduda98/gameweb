@@ -97,7 +97,8 @@ public class UserService : IUserService
         var response = new SignInResponse
         {
             Token = jwtToken,
-            RefreshToken = refreshToken.Token
+            RefreshToken = refreshToken.Token,
+            ExpirationTime = refreshToken.ExpirationTime
         };
 
         return response;
@@ -142,7 +143,8 @@ public class UserService : IUserService
         var response = new SignInResponse
         {
             Token = jwtToken,
-            RefreshToken = refreshToken.Token
+            RefreshToken = refreshToken.Token,
+            ExpirationTime = refreshToken.ExpirationTime
         };
 
         return response;
