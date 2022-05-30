@@ -37,3 +37,11 @@ export interface DevelopersListProjection {
     location: string
     establishmentYear: number
 }
+export interface GameReviewsListProjection {
+    id : string,
+    title : string,
+    content : string,
+    creationTime: Date,
+    userName: string,
+    rating: number
+}
