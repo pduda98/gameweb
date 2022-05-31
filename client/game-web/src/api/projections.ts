@@ -45,3 +45,14 @@ export interface GameReviewsListProjection {
     userName: string,
     rating: number
 }
+
+export interface SearchGameProjection {
+    id : string,
+    name : string,
+    releaseYear : number,
+}
+
+export interface SearchDeveloperProjection {
+    id : string,
+    name : string,
+}

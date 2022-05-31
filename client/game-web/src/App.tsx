@@ -7,6 +7,7 @@ import Developer from "views/DeveloperView/Developer";
 import DevelopersListView from "views/DevelopersView/DevelopersList";
 import GenresListView from "views/GenresView/GenresListView";
 import LogIn from "views/LogInView/LogIn";
+import SearchView from "views/SearchView/SearchView";
 
 const App = () => (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => (
                 <Route path="/genres" element={<GenresListView />}/>
                 <Route path="/login" element={<LogIn />}/>
                 <Route path="/" element={<LastReviewsListComponent />} />
+                <Route path="search/:searchString" element={<SearchView />} />
             </Routes>
         </div>
     </BrowserRouter>

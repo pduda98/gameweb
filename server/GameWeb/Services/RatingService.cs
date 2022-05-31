@@ -28,8 +28,13 @@ public class RatingService : IRatingService
             throw new EntityNotFoundException();
         }
 
-        if (await _context.Ratings.AnyAsync(x => x.GameId == game.Id && x.UserId == user.Id, cancellationToken)
-            || request.Value < 0 || request.Value > 10)
+        if (await _context.Ratings.AnyAsync(x => x.GameId == game.Id && x.UserId == user.Id, cancellationToken))
+        {
+            var ratingId = (await _context.Ratings.FirstAsync(x => x.GameId == game.Id && x.UserId == user.Id, cancellationToken)).Id;
+            await UpdateRating(ratingId, user, gameId, request, cancellationToken);
+            return;
+        }
+        if (request.Value < 0 || request.Value > 10)
         {
             throw new BadRequestException();
 
