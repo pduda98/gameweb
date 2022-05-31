@@ -1,9 +1,17 @@
 import { GameResponse, GameReviewsList } from 'api/responses';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './Game.css'
 import {api, getJwtToken} from 'api/index';
 import imagePath from "..\\public\\gamecover.jpg"
+import starImage from "..\\public\\star.png"
+
+function rateGame(rating: number, gameId: string, alreadyRated: boolean) {
+    const config = {
+        headers: { Authorization: `Bearer ${getJwtToken()}` }
+    };
+    api.post(`games/${gameId}/ratings`,{value: rating}, config);
+}
 
 const Game: React.FC = () => {
     const [resultGame, setResultGame] = useState<GameResponse | null>(null);
@@ -36,6 +44,17 @@ const Game: React.FC = () => {
                     {(game.usersRating != null) ? `Your rating: ${game.usersRating}` : "No rating"}
                     <br></br>
                     <b>Average rating: {game.averageRating}</b> from {game.ratingsCount} ratings
+                    <br></br>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(1,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(2,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(3,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(4,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(5,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(6,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(7,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(8,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(9,game.id, (game.usersRating != null))}/></Link>
+                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(10,game.id, (game.usersRating != null))}/></Link>
                 </div>
                 <div className="genres">
                     <p><b>Genres:</b></p><br></br>
