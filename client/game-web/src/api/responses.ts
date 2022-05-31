@@ -44,4 +44,5 @@ export interface DeveloperResponse {
 export interface SignInResponse {
     token: string,
     refreshToken: string,
+    expirationTime: string
 }
