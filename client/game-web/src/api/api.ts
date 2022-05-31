@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import './responses';
-
-const accessTokenKey = 'at';
-const refreshTokenKey = 'rt';
+import { SignInResponse } from './responses';
 
 interface AccessTokenInStorage {
     val: string;
@@ -17,16 +15,46 @@ export const api = axios.create({
 const storage = localStorage;
 
 export function getJwtToken() {
-    return storage.getItem("jwt");
-}
+    const accesTokenString  = storage.getItem("jwt");
+    const refreshToken = storage.getItem("refreshToken");
 
-export function setJwtToken (token: string) {
-    storage.setItem("jwt", token);
+    if (accesTokenString ) {
+        const token: AccessTokenInStorage = JSON.parse(accesTokenString);
 
-    // const tokenObj: AccessTokenInStorage = {
-    //     val: token,
-    //     exp: +(new Date(expiresOn)),
+        if (token.exp > Date.now())
+            return token.val;
+    }
+
+    if (!refreshToken)
+        return null;
+
+    // try {
+    //     const res = api.post<SignInResponse>(`users/refresh-token`,'',{headers: { Authorization: `Bearer ${refreshToken}` }});
+    //     console.log(res);
+    // } catch (e: any) {
+    //     console.error('Token refresh request failed', e);
+    //     // toast.error(`Błąd tokenów: ${e.message}`);
+    //     return null;
+    // }
+
+    // const newToken: AccessTokenInStorage = {
+    //     val: resp.data.token,
+    //     exp: +(new Date(resp.data.expiresOn)),
     // };
 
-    // storage.setItem(accessTokenKey, JSON.stringify(tokenObj));
+    // storage.setItem(accessTokenKey, JSON.stringify(newToken));
+
+    // return newToken.val;
+    // return storage.getItem("jwt");
+}
+
+export function setTokens({ token, refreshToken, expirationTime }: SignInResponse) {
+
+    const tokenObj: AccessTokenInStorage = {
+        val: token,
+        exp: +(new Date(expirationTime)),
+    };
+
+    storage.setItem("jwt", JSON.stringify(tokenObj));
+    storage.setItem("refreshToken", refreshToken);
 };
