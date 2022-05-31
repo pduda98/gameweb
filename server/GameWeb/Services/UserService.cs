@@ -92,13 +92,14 @@ public class UserService : IUserService
         _context.Update(user);
         _context.SaveChanges();
 
-        var jwtToken = _jwtHelper.GenerateJwtToken(user);
+        var expirationTime = DateTime.UtcNow.AddMinutes(15);
+        var jwtToken = _jwtHelper.GenerateJwtToken(user, expirationTime);
 
         var response = new SignInResponse
         {
             Token = jwtToken,
             RefreshToken = refreshToken.Token,
-            ExpirationTime = refreshToken.ExpirationTime
+            ExpirationTime = expirationTime
         };
 
         return response;
@@ -131,7 +132,8 @@ public class UserService : IUserService
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             throw new Exception();
 
-        var jwtToken = _jwtHelper.GenerateJwtToken(user);
+        var expirationTime = DateTime.UtcNow.AddMinutes(15);
+        var jwtToken = _jwtHelper.GenerateJwtToken(user, expirationTime);
         var refreshToken = _jwtHelper.GenerateRefreshToken(user.Id);
         user.RefreshTokens.Add(refreshToken);
 
@@ -144,7 +146,7 @@ public class UserService : IUserService
         {
             Token = jwtToken,
             RefreshToken = refreshToken.Token,
-            ExpirationTime = refreshToken.ExpirationTime
+            ExpirationTime = expirationTime
         };
 
         return response;
