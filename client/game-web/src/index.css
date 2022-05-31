@@ -38,7 +38,15 @@ code {
   position: relative;
 }
 
-
+.parent-list {
+  background-color: rgb(0, 20, 66);
+  color: rgb(193, 191, 191);
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  margin-bottom: 0.5em;
+  margin-top: 60px;
+  }
 .parent {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
