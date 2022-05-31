@@ -16,7 +16,6 @@ const storage = localStorage;
 export const getJwtToken = async(): Promise<string | null> => {
     const accesTokenString  = storage.getItem("jwt");
     const refreshToken = storage.getItem("refreshToken");
-
     if (accesTokenString) {
         const token: AccessTokenInStorage = JSON.parse(accesTokenString);
 
