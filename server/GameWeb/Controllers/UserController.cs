@@ -52,6 +52,7 @@ public class UserController : ControllerBase
         try
         {
             var refreshToken = Request.Cookies[Consts.RefreshTokenCookieName];
+            //var refreshToken = Request.Headers[Consts.AuthorizationHeaderName].FirstOrDefault()?.Split(" ").Last();
             var response = await _userService.RefreshToken(refreshToken, cancellationToken);
             SetTokenCookie(response.RefreshToken);
             return Ok(response);

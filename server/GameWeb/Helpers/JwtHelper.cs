@@ -17,14 +17,14 @@ public class JwtHelper : IJwtHelper
         _context = context;
     }
 
-    public string GenerateJwtToken(User user)
+    public string GenerateJwtToken(User user, DateTime expirationTime)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(Configuration.TokenSecret ?? throw new ArgumentException());
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-            Expires = DateTime.UtcNow.AddMinutes(15),
+            Expires = expirationTime,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
