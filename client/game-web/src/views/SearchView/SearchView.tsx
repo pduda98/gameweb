@@ -8,7 +8,7 @@ const SearchView: React.FC = () => {
     const { searchString } = useParams();
     useEffect(() => {
         api.get<SearchResponse>(`search?searchString=${searchString}`).then(res => setResult(res.data))
-    }, [])
+    }, [searchString])
 
 
     if (result === null){

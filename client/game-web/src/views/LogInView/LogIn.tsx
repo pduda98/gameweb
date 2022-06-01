@@ -1,7 +1,6 @@
 import './LogIn.css'
 import {api, setTokens} from 'api/index';
 import { SignInResponse } from 'api/responses';
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 const LogIn: React.FC = () => {
     const navigate = useNavigate();
@@ -19,6 +18,8 @@ const LogIn: React.FC = () => {
         {
             setTokens(res.data);
             navigate("/", { replace: true });
+        }
+        else{
             failure = true;
         }
     };

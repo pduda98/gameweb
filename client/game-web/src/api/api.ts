@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import './responses';
 import { SignInResponse } from './responses';
 
 interface AccessTokenInStorage {
@@ -14,11 +13,10 @@ export const api = axios.create({
 
 const storage = localStorage;
 
-export function getJwtToken() {
+export const getJwtToken = async(): Promise<string | null> => {
     const accesTokenString  = storage.getItem("jwt");
     const refreshToken = storage.getItem("refreshToken");
-
-    if (accesTokenString ) {
+    if (accesTokenString) {
         const token: AccessTokenInStorage = JSON.parse(accesTokenString);
 
         if (token.exp > Date.now())
@@ -26,26 +24,28 @@ export function getJwtToken() {
     }
 
     if (!refreshToken)
+        storage.removeItem("jwt");
+        storage.removeItem("refreshToken");
         return null;
 
-    // try {
-    //     const res = api.post<SignInResponse>(`users/refresh-token`,'',{headers: { Authorization: `Bearer ${refreshToken}` }});
-    //     console.log(res);
-    // } catch (e: any) {
-    //     console.error('Token refresh request failed', e);
-    //     // toast.error(`Błąd tokenów: ${e.message}`);
-    //     return null;
-    // }
+    let res: AxiosResponse<SignInResponse>;
+    try {
+        res = await api.post<SignInResponse>(`users/refresh-token`,null,{headers: { Authorization: `Bearer ${refreshToken}` }});
+    } catch (e: any) {
+        console.error('Token refresh request failed', e);
+        storage.removeItem("jwt");
+        storage.removeItem("refreshToken");
+        return null;
+    }
 
-    // const newToken: AccessTokenInStorage = {
-    //     val: resp.data.token,
-    //     exp: +(new Date(resp.data.expiresOn)),
-    // };
+    const newToken: AccessTokenInStorage = {
+        val: res.data.token,
+        exp: +(new Date(res.data.expirationTime)),
+    };
 
-    // storage.setItem(accessTokenKey, JSON.stringify(newToken));
+    storage.setItem("jwt", JSON.stringify(newToken));
 
-    // return newToken.val;
-    // return storage.getItem("jwt");
+    return newToken.val;
 }
 
 export function setTokens({ token, refreshToken, expirationTime }: SignInResponse) {
@@ -58,3 +58,16 @@ export function setTokens({ token, refreshToken, expirationTime }: SignInRespons
     storage.setItem("jwt", JSON.stringify(tokenObj));
     storage.setItem("refreshToken", refreshToken);
 };
+
+api.interceptors.request.use(async function (config: AxiosRequestConfig)
+    {
+        if (config.url?.match("users/authenticate") || config.url?.match("users/refresh-token"))
+            return config;
+
+        const token = await getJwtToken();
+        if (token)
+            config.headers!.Authorization = `Bearer ${token}`;
+
+        return config;
+    }
+);
