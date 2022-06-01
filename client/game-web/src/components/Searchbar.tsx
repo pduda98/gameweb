@@ -8,9 +8,9 @@ const Searchbar=() =>{
     const [searchTerm,setSearchTerm] = useState('');
     return (
         <>
-            <div className="logo">
+            {/* <div className="logo">
                 <NavLink to="/" style={{ textDecoration: 'none' }}><img src={Logo} alt="Logo" title="Logo" /></NavLink>
-            </div>
+            </div> */}
             <div className="search">
                 <input
                     placeholder="Szukaj gier lub deweloperów"

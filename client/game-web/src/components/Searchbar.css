@@ -17,7 +17,7 @@
 
     padding: .5rem .5rem;
     border-radius: 3rem;
-    background: #1f2123;
+    background: rgb(243, 240, 255);
 }
 
 .search input {
@@ -29,8 +29,8 @@
     padding-right: 2%;
 
     outline: none;
-    color: rgb(193, 191, 191);
-    background: #1f2123;
+    color: rgb(93, 92, 97);
+    background: rgb(243, 240, 255);
 }
 
 ::placeholder {
