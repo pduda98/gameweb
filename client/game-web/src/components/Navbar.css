@@ -3,6 +3,7 @@
     list-style-type: none;
     display: flex;
     align-items: center;
+    color: rgb(93, 92, 97);
 }
 .navbar_inner li{
     font-size: 1.3em;
@@ -10,10 +11,12 @@
     margin-inline: 0.5em;
     padding-inline: .5rem;
     border-radius: 3rem;
+    color: rgb(93, 92, 97);
 }
 .navbar_inner li:hover{
     cursor: pointer;
     background-color: black;
+    color: rgb(93, 92, 97);
 }
 .navbar_inner li > a:focus {
     color:red;

@@ -4,8 +4,10 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    background: rgb(2,3,6);
-    background: linear-gradient(90deg, rgba(2,3,6,1) 25%, rgba(22,24,29,1) 100%);
-    color: rgb(193, 191, 191);
+    background: rgb(190,182,227);
+    /* background: linear-gradient(90deg, rgba(2,3,6,1) 25%, rgba(22,24,29,1) 100%); */
+    color: rgb(93, 92, 97);
     position: fixed;
+    box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB;
+    
 }

@@ -17,9 +17,9 @@ const Searchbar=() =>{
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <Link to={`/search/${searchTerm}`}>
+                <NavLink to={`/search/${searchTerm}`}>
                     <img src={SearchIcon} id="search" alt="Search" width="25" height="25" />
-                </Link>
+                </NavLink>
             </div>
         </>
     )

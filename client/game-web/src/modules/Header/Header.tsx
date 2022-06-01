@@ -6,9 +6,9 @@ import LoginButton from "components/LoginButton";
 const Header=() =>{
     return (
         <header className='header'>
-            <Searchbar />
+            {/* <Searchbar /> */}
             <Navbar />
-            <LoginButton />
+            {/* <LoginButton /> */}
         </header>
   )
 };
