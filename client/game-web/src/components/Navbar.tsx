@@ -6,9 +6,9 @@ const Navbar=() =>{
             <nav className='navbar'>
                 <div className='navbar_inner'>
                     <ul>
-                        <li>GRY</li>
-                        <li>DEWELOPERZY</li>
-                        <li>GATUNKI</li>
+                        <li><NavLink to="/games" style={{ textDecoration: 'none' }}>GAMES</NavLink></li>
+                        <li><NavLink to="/developers" style={{ textDecoration: 'none' }}>DEVELOPERS</NavLink></li>
+                        <li><NavLink to="/genres" style={{ textDecoration: 'none' }}>GENRES</NavLink></li>
                     </ul>
                 </div>
             </nav>

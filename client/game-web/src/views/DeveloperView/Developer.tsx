@@ -23,7 +23,7 @@ const Developer: React.FC = () => {
             <div className="parent">
                 <div className="div1"><img src={imagePath} alt="asd" width="250" height="300"/></div>
                 <div className="div2"> <b>
-                    <Link to= {developer.webAddress}>{developer.webAddress}</Link></b></div>
+                    <Link to= {developer.webAddress} >{developer.webAddress}</Link></b></div>
                 <div className="div3">
                     
                 </div>
@@ -41,7 +41,7 @@ const Developer: React.FC = () => {
                     [
                         <div className="element-list">
                         <div className="div9"><img src={imagePath} alt="asd" width="200" height="200"/></div>
-                        <div className="div10"><Link to={`/games/${id}`}>{name}</Link></div>
+                        <div className="div10"><Link to={`/games/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></div>
                         <div className="div11"><b>{averageRating}</b></div>
                         <div className="div12">
                             <p><b>Genres:</b></p><br></br>

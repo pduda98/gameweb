@@ -23,7 +23,7 @@ const DevelopersListView: React.FC = () => {
             [
                 <div className="element-list" key={id}>
                     <div className="div9"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="250"/></div>
-                    <div className="div10"><h1><Link to={`/developers/${id}`}>{name}</Link></h1></div>
+                    <div className="div10"><h1><Link to={`/developers/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></h1></div>
                     <div className="div11"><b>Developer established in {establishmentYear}</b></div>
                     <div className="div12"><b>Locaed in {location}</b></div>
                 </div>

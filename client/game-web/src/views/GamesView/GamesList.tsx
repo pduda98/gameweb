@@ -24,7 +24,7 @@ const GamesList: React.FC = () => {
             [
                 <div className="game" key={id}>
                     <div className="image"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="300"/></div>
-                    <div className="title"><h1><Link to={`/games/${id}`}>{name}</Link></h1></div>
+                    <div className="title"><h1><Link to={`/games/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></h1></div>
                     <div className="averageRating"><b>Average rating: {averageRating}</b></div>
                     <div className="userRating"><b>Your rating: {usersRating}</b></div>
                     <div className="genres">

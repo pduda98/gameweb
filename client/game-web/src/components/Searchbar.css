@@ -3,30 +3,30 @@
     margin-right: 10em;
     width: 60px;
 }
-#search{
+#searchIcon{
     margin-right: 10px;
 }
 
 .search {
     width: 25%;
     margin: 0.5em;
-
+    padding-top:5px!important;padding-bottom:5px!important;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    padding: .5rem .5rem;
+    float:left!important;
     border-radius: 3rem;
     background: rgb(243, 240, 255);
 }
 
 .search input {
+    padding:8px;
+    display:block;
+    border:none;
+    width:100%;
     flex: 1;
-    border: none;
     font-size: 1.3em;
-    margin-left: 5px;
-    padding-left: 2%;
-    padding-right: 2%;
+    margin-left: 12px;
 
     outline: none;
     color: rgb(93, 92, 97);

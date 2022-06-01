@@ -2,9 +2,11 @@ import './LogIn.css'
 import {api, setTokens} from 'api/index';
 import { SignInResponse } from 'api/responses';
 import { useNavigate } from "react-router-dom";
+import LoginButton from "components/LoginButton"
 const LogIn: React.FC = () => {
     const navigate = useNavigate();
     let failure = false;
+
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         //Prevent page reload
         event.preventDefault();
