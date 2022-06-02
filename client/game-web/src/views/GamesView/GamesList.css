@@ -5,7 +5,6 @@
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     background-color: rgb(243, 240, 255);
-    margin-top: 50px;
     }
 
 .game .image { grid-area: 2 / 2 / 9 / 6; }
@@ -13,3 +12,22 @@
 .game .averageRating { grid-area: 4 / 7 / 5 / 12; color: rgb(93, 92, 97); }
 .game .userRating { grid-area: 5 / 7 / 6 / 12; color: rgb(93, 92, 97);}
 .game .genres { grid-area: 7 / 7 / 9 / 12; color: rgb(93, 92, 97);}
+
+.collapsible {
+    margin-top: 100px;
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+.filters {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
