@@ -66,7 +66,7 @@ public class JwtHelper : IJwtHelper
 
             return userId;
         }
-        catch
+        catch (Exception)
         {
             return null;
         }

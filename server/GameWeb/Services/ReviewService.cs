@@ -113,6 +113,7 @@ public class ReviewService : IReviewService
                     Title = x.Title,
                     CreationTime = x.CreationTime,
                     UserName = x.User.Name,
+                    UserId = x.User.Guid,
                     Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id)
                         ? x.User.Ratings.First(y => y.GameId == x.Game.Id).Value : null
                 })
@@ -133,6 +134,7 @@ public class ReviewService : IReviewService
                     Content = x.ReviewContent,
                     CreationTime = x.CreationTime,
                     UserName = x.User.Name,
+                    UserId = x.User.Guid,
                     Rating = x.User.Ratings.Any(y => y.GameId == x.Game.Id)
                         ? x.User.Ratings.First(y => y.GameId == x.Game.Id).Value : null
                 })
