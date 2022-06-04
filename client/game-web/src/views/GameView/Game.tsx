@@ -1,15 +1,16 @@
 import { GameResponse, GameReviewsList } from 'api/responses';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import './Game.css'
 import {api, getJwtToken, getUserId} from 'api/index';
 import imagePath from "..\\public\\gamecover.jpg"
 import starImage from "..\\public\\star.png"
 import plusImage from "..\\public\\plus.png"
-import { GameReviewsListProjection } from 'api/projections';
+import { Rating } from 'react-simple-star-rating'
 
 
 const Game: React.FC = () => {
+    const navigate = useNavigate();
     const [resultGame, setResultGame] = useState<GameResponse | null>(null);
     const [resultReviews, setResultReviews] = useState<GameReviewsList | null>(null);
     const { id } = useParams();
@@ -22,14 +23,26 @@ const Game: React.FC = () => {
         api.get<GameReviewsList>(`games/${id}/reviews`).then(res => setResultReviews(res.data))
     }, [])
     
-    function rateGame(rating: number) {
-        api.post(`games/${gameId}/ratings`,{value: rating}, config);
-        window.location.reload();
+    const [rating, setRating] = useState(0);
+
+    const handleRating = async (rate: number) => {
+        if (getUserId()!=="")
+        {
+            setRating(rate)
+            const res = await api.post(`games/${gameId}/ratings`,{value: rate/10}, config);
+            if (res.data != null && res.status === 200) {
+                window.location.reload();
+            }
+        }else{
+            navigate(`/login`, { replace: true });
+        }
     }
 
-    function removeReview(reviewId: string) {
-        api.delete(`games/${gameId}/reviews/${reviewId}`, config);
-        window.location.reload();
+    async function removeReview(reviewId: string) {
+        const res = await api.delete(`games/${gameId}/reviews/${reviewId}`, config);
+        if (res.data != null && res.status === 204) {
+            window.location.reload();
+        }
     }
 
     if (resultGame === null){
@@ -52,16 +65,14 @@ const Game: React.FC = () => {
                     <br></br>
                     <b>Average rating: {game.averageRating}</b> from {game.ratingsCount} ratings
                     <br></br>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(1)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(2)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(3)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(4)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(5)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(6)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(7)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(8)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(9)}/></Link>
-                    <Link to={`/games/${id}`}><img src={starImage} alt="s" width="25" height="25" onClick={() => rateGame(10)}/></Link>
+                    <Rating 
+                        onClick={handleRating}
+                        ratingValue={rating}
+                        iconsCount={10}
+                        initialValue={game.usersRating}
+                        size = {20}
+                        fillColor={"#8f8cae"}
+                    />
                 </div>
                 <div className="genres">
                     <p><b>Genres:</b></p><br></br>
