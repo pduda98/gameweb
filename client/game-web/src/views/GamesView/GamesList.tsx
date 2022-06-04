@@ -51,7 +51,6 @@ const GamesList: React.FC = () => {
             :await api.get<TopGamesList>(`games?genre=${filter}`).then(res => setResultGames(res.data))
         }
     }
-
     if (gamesResult === null){
         return <><p>No games</p><div /></>;
     }

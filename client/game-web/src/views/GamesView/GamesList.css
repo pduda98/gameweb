@@ -5,6 +5,7 @@
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     background-color: rgb(243, 240, 255);
+    margin-bottom: 10px;
     }
 
 .game .image { grid-area: 2 / 2 / 9 / 6; }
