@@ -7,13 +7,13 @@ import './GamesList.css'
 const GamesList: React.FC = () => {
     const [gamesResult, setResultGames] = useState<TopGamesList | null>(null);
     const [genresResult, setResultGenres] = useState<GenresList | null>(null);
-    const [value, setValue] = useState("");
     const [filter, setFilter] = useState('all');
+    const [year, setYear] = useState('');
 
     useEffect(() => {
         api.get<TopGamesList>('games').then(res => setResultGames(res.data))
         api.get<GenresList>('genres').then(res => setResultGenres(res.data))
-    }, [value])
+    }, [])
 
     const onChange = (event: { persist: () => void; target: { id: any; name: any; value: any; type: any; }; }) => {
         event.persist()
@@ -24,6 +24,11 @@ const GamesList: React.FC = () => {
         }
     }
 
+    const handleChange = (event: { target: { value: string; }; }) => {
+        const result = event.target.value.replace(/\D/g, '');
+
+        setYear(result);
+    };
     function displayFilters()
     {
         var filter = document.getElementById("filters");
@@ -36,12 +41,15 @@ const GamesList: React.FC = () => {
         }
     }
 
-    const handleFilter = () => {
-        // if{filter == 'all'}{
-
-        // }
-        api.get<TopGamesList>('games').then(res => setResultGames(res.data))
-        console.log(gamesResult);
+    const handleFilter = async () => {
+        if(filter == 'all'){
+            (year != '') ? await api.get<TopGamesList>(`games?year=${year}`).then(res => setResultGames(res.data))
+            :await api.get<TopGamesList>('games').then(res => setResultGames(res.data))
+        }
+        else{
+            (year != '') ? await api.get<TopGamesList>(`games?genre=${filter}&year=${year}`).then(res => setResultGames(res.data))
+            :await api.get<TopGamesList>(`games?genre=${filter}`).then(res => setResultGames(res.data))
+        }
     }
 
     if (gamesResult === null){
@@ -54,6 +62,7 @@ const GamesList: React.FC = () => {
             <button type="button" className="collapsible" onClick={displayFilters}>Filter</button>
             <fieldset>
                 <div id="filters">
+                <input type="text" placeholder="Year" value={year} onChange={handleChange}/>
                     <input type="radio" name='filter' className='filterCheck' value='all' checked={filter === 'all'}
                         onChange={onChange}></input>
                         <label>All</label>
@@ -76,8 +85,8 @@ const GamesList: React.FC = () => {
                     <div className="genres">
                         <p><b>Genres:</b></p>
                         <>
-                            {genres.forEach((genre) =>
-                                <h3>{genre}</h3>
+                            {genres.map((genre) =>
+                                <b key={genre}>{genre}</b>
                             )}
                         </>
                     </div>

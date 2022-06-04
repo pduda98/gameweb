@@ -59,8 +59,8 @@ const Game: React.FC = () => {
                 <div className="genres">
                     <p><b>Genres:</b></p><br></br>
                     <>
-                        {game.genres.forEach((genre) =>
-                            <p>{genre}</p>
+                        {game.genres.map((genre) =>
+                            <p key={genre}>{genre}</p>
                         )}
                     </>
                 </div>
