@@ -1,12 +1,10 @@
 import '../LogInView/LogIn.css'
-import {api, setTokens} from 'api/index';
+import {api} from 'api/index';
 import { SignInResponse } from 'api/responses';
 import { useNavigate } from "react-router-dom";
-import LoginButton from "components/LoginButton"
+import { toast } from 'react-toastify';
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
-    let failure = false;
-
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         //Prevent page reload
         event.preventDefault();
@@ -15,24 +13,53 @@ const SignUp: React.FC = () => {
         let email = document.getElementById('email') as HTMLInputElement;
         let password = document.getElementById('password') as HTMLInputElement;
         let repeatedPassword = document.getElementById('repeated-password') as HTMLInputElement;
-        
+
         if (password.value !== repeatedPassword.value) {
-            failure = true;
-        }else{
-            const res = await api.post<SignInResponse>(
-                `users/sign-up`,
+            toast.error('Incorrectly repeated password!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
+        }
+        else{
+            try{
+                const res = await api.post<SignInResponse>(
+                    `users/sign-up`,
+                    {
+                        username: username.value,
+                        password: password.value,
+                        email: email.value
+                    });
+
+                if (res.data != null && res.status === 200)
                 {
-                    username: username.value,
-                    password: password.value,
-                    email: email.value
-                });
-    
-            if (res.data != null && res.status === 200)
-            {
-                navigate("/login", { replace: true });
+                    toast.success('Registered successfully!', {
+                        position: "bottom-left",
+                        autoClose: 4000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                    });
+                    navigate("/login", { replace: true });
+                }
             }
-            else{
-                failure = true;
+            catch
+            {
+                toast.error('Register error!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
             }
         }
 
@@ -57,9 +84,8 @@ const SignUp: React.FC = () => {
                 <label>Repeat password </label>
                 <input type="password" id="repeated-password" required />
             </div>
-            {(failure) ? <div className={'alert alert-danger'}>Wrong credentials!</div> : ""}
             <div className="button-container">
-                <input type="submit" />
+                <input type="submit" value="Submit"/>
             </div>
         </form>
     </div>

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GameReviewsListProjection } from 'api/projections';
 import { useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
+import { toast } from 'react-toastify';
 
 const AddReviewView: React.FC = () => {
     const navigate = useNavigate();
@@ -31,6 +32,15 @@ const AddReviewView: React.FC = () => {
             config);
         if (res.data != null && res.status === 200)
         {
+            toast.success('Added review!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
             navigate(`/games/${gameId}/`, { replace: true });
         }
     };
@@ -57,7 +67,7 @@ const AddReviewView: React.FC = () => {
                 <textarea id="review-content" required />
             </div>
             <div className="button-container">
-                <input type="submit" />
+                <input type="submit" value="Submit"/>
             </div>
         </form>
     </div>

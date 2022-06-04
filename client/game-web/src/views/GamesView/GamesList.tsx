@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {api} from 'api/index';
 import './GamesList.css'
+import { toast } from 'react-toastify';
 
 const GamesList: React.FC = () => {
     const [gamesResult, setResultGames] = useState<TopGamesList | null>(null);
@@ -50,6 +51,15 @@ const GamesList: React.FC = () => {
             (year != '') ? await api.get<TopGamesList>(`games?genre=${filter}&year=${year}`).then(res => setResultGames(res.data))
             :await api.get<TopGamesList>(`games?genre=${filter}`).then(res => setResultGames(res.data))
         }
+        toast.info('Filters applied', {
+            position: "bottom-left",
+            autoClose: 4000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+        });
     }
     if (gamesResult === null){
         return <><p>No games</p><div /></>;
@@ -61,17 +71,28 @@ const GamesList: React.FC = () => {
             <button type="button" className="collapsible" onClick={displayFilters}>Filter</button>
             <fieldset>
                 <div id="filters">
-                <input type="text" placeholder="Year" value={year} onChange={handleChange}/>
-                    <input type="radio" name='filter' className='filterCheck' value='all' checked={filter === 'all'}
-                        onChange={onChange}></input>
-                        <label>All</label>
-                    {(genresResult!==null) ? genresResult.genres.map((genre) =>
-                        <><input type="radio" name='filter' className='filterCheck' value={genre} checked={filter === genre}
-                                onChange={onChange}></input>
-                            <label>{genre}</label></>
-                        ) : ""
-                    }
-                    <input type='submit' className="submitFilter" onClick={handleFilter}/>
+                    <input type="text" placeholder="Year" value={year} onChange={handleChange}/><br></br>
+                    <div className='filterGenresWrapper'>
+                        <label htmlFor='all' className='filterLabel'>
+                            <input id='all' type="radio" name='filter' className='filterRadio' value='all' checked={filter === 'all'}
+                                onChange={onChange}>
+                            </input>
+                            <div className="filterDesign"></div>
+                            All
+                        </label>
+                        {(genresResult!==null) ? genresResult.genres.map((genre) =>
+                            <>
+                                <label htmlFor={genre} className='filterLabel'>
+                                    <input id={genre} type="radio" name='filter' className='filterRadio' value={genre} checked={filter === genre}
+                                        onChange={onChange}>
+                                    </input>
+                                    <div className="filterDesign"></div>
+                                    {genre}
+                                </label></>
+                            ) : ""
+                        }
+                    </div>
+                    <input type='submit' className="submitFilter" onClick={handleFilter} value="Submit"/>
                 </div>
             </fieldset>
         { games.flatMap(({ id, name, averageRating, usersRating, genres}) => (
@@ -85,7 +106,7 @@ const GamesList: React.FC = () => {
                         <p><b>Genres:</b></p>
                         <>
                             {genres.map((genre) =>
-                                <b key={genre}>{genre}</b>
+                                <b key={genre}>{genre + " "}</b>
                             )}
                         </>
                     </div>

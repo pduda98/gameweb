@@ -2,11 +2,9 @@ import './LogIn.css'
 import {api, setTokens} from 'api/index';
 import { SignInResponse } from 'api/responses';
 import { useNavigate } from "react-router-dom";
-import LoginButton from "components/LoginButton"
+import { toast } from 'react-toastify';
 const LogIn: React.FC = () => {
     const navigate = useNavigate();
-    let failure = false;
-
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         //Prevent page reload
         event.preventDefault();
@@ -14,15 +12,33 @@ const LogIn: React.FC = () => {
         let username = document.getElementById('username') as HTMLInputElement;
         let password = document.getElementById('password') as HTMLInputElement;
 
-        const res = await api.post<SignInResponse>(`users/authenticate`,{username: username.value, password: password.value});
-
-        if (res.data != null && res.status === 200)
-        {
-            setTokens(res.data);
-            navigate("/", { replace: true });
+        try {
+            const res = await api.post<SignInResponse>(`users/authenticate`,{username: username.value, password: password.value});
+            if (res.data != null && res.status === 200)
+            {
+                setTokens(res.data);
+                toast.success('Logged in successfully!', {
+                    position: "bottom-left",
+                    autoClose: 4000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                });
+                navigate("/", { replace: true });
+            }
         }
-        else{
-            failure = true;
+        catch{
+            toast.error('Invalid credentials!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
         }
     };
 
@@ -31,15 +47,14 @@ const LogIn: React.FC = () => {
         <form autoComplete="off">
             <div className="input-container">
                 <label>Username </label>
-                <input type="text" id="username" required />
+                <input type="text" id="username" required/>
             </div>
             <div className="input-container">
                 <label>Password </label>
                 <input type="password" id="password" required />
             </div>
-            {(failure) ? <div className={'alert alert-danger'}>Wrong credentials!</div> : ""}
             <div className="button-container">
-                <input type="submit" />
+                <input type="submit" value="Submit"/>
             </div>
         </form>
     </div>

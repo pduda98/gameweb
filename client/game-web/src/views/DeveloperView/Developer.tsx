@@ -23,13 +23,11 @@ const Developer: React.FC = () => {
             <div className="parent">
                 <div className="div1"><img src={imagePath} alt="asd" width="250" height="300"/></div>
                 <div className="div2"> <b>
-                    <Link to= {developer.webAddress} >{developer.webAddress}</Link></b></div>
+                    <a target="_blank" href={developer.webAddress}>{developer.webAddress}</a></b></div>
                 <div className="div3">
-                    
                 </div>
                 <div className="div4"><h2>{developer.name}</h2></div>
                 <div className="div5">
-                    
                 </div>
                 <div className="div6">{developer.location}</div>
                 <div className="div7">{developer.establishmentYear}</div>
@@ -49,7 +47,7 @@ const Developer: React.FC = () => {
                                     <p>{genre}</p>
                                 )}
                             </div>
-                    </div>  
+                    </div>
                 ]
                 ))}
             </div>

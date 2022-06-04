@@ -4,15 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import './Game.css'
 import {api, getJwtToken, getUserId} from 'api/index';
 import imagePath from "..\\public\\gamecover.jpg"
-import starImage from "..\\public\\star.png"
 import plusImage from "..\\public\\plus.png"
 import { Rating } from 'react-simple-star-rating'
+import { toast } from 'react-toastify';
 
 
 const Game: React.FC = () => {
     const navigate = useNavigate();
     const [resultGame, setResultGame] = useState<GameResponse | null>(null);
     const [resultReviews, setResultReviews] = useState<GameReviewsList | null>(null);
+    const [rating, setRating] = useState(0);
     const { id } = useParams();
     let gameId = id;
     const config = {
@@ -21,18 +22,25 @@ const Game: React.FC = () => {
     useEffect(() => {
         api.get<GameResponse>(`games/${id}`,config).then(res => setResultGame(res.data))
         api.get<GameReviewsList>(`games/${id}/reviews`).then(res => setResultReviews(res.data))
-    }, [])
-    
-    const [rating, setRating] = useState(0);
+    }, [rating])
+
 
     const handleRating = async (rate: number) => {
         if (getUserId()!=="")
         {
-            setRating(rate)
             const res = await api.post(`games/${gameId}/ratings`,{value: rate/10}, config);
             if (res.data != null && res.status === 200) {
-                window.location.reload();
+                toast.success('Updated rating!', {
+                    position: "bottom-left",
+                    autoClose: 4000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                });
             }
+            setRating(rate)
         }else{
             navigate(`/login`, { replace: true });
         }
@@ -41,6 +49,15 @@ const Game: React.FC = () => {
     async function removeReview(reviewId: string) {
         const res = await api.delete(`games/${gameId}/reviews/${reviewId}`, config);
         if (res.data != null && res.status === 204) {
+            toast.success('Review deleted!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
             window.location.reload();
         }
     }
@@ -51,7 +68,6 @@ const Game: React.FC = () => {
 
     let game = resultGame;
     let reviews = resultReviews?.reviews;
-    console.log(getUserId());
     return (
         <div>
             <div className="singleGame" key={game.id}>
@@ -65,7 +81,7 @@ const Game: React.FC = () => {
                     <br></br>
                     <b>Average rating: {game.averageRating}</b> from {game.ratingsCount} ratings
                     <br></br>
-                    <Rating 
+                    <Rating
                         onClick={handleRating}
                         ratingValue={rating}
                         iconsCount={10}
@@ -96,10 +112,10 @@ const Game: React.FC = () => {
                 <div className="review" key={id}>
                     <div><h2>{title}</h2></div>
                     <div>Review by <b>{userName}</b>
-                    { userId === getUserId() && 
+                    { userId === getUserId() &&
                         <div>
-                            <Link to={`/games/${gameId}/editReview/${id}`} style={{ textDecoration: 'none' }}>Edytuj</Link>
-                            <p onClick={() => removeReview(id)}>Usuń</p>
+                            <Link to={`/games/${gameId}/editReview/${id}`} style={{ textDecoration: 'none' }}>Edit</Link>
+                            <p onClick={() => removeReview(id)}>Delete</p>
                         </div>
                     }
                     </div>

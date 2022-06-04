@@ -32,14 +32,67 @@
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
+    align-items: center;
+    margin-top: 10px;
   }
 
 input[type="submit"] {
-    margin-top: 10px;
+    margin: 15px;
     cursor: pointer;
     font-size: 15px;
     background: rgb(190,182,227);
     border: 1px solid rgb(190,182,227);
     color: #fff;
     padding: 10px 20px;
+}
+.filterLabel {
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: .3s;
+}
+.filterDesign {
+    margin: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 100px;
+    background: linear-gradient(to right bottom, hsl(160, 18%, 3%), hsl(0, 0%, 0%));
+    position: relative;
+}
+
+.filterDesign::before {
+    content: '';
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background: hsl(0, 0%, 90%);
+    transform: scale(1.1);
+    transition: .3s;
+}
+
+.filterRadio {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -1;
+}
+
+.filterRadio:checked+.filterDesign::before {
+  transform: scale(0);
+}
+
+.filterGenresWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    padding: 0 10px;
 }

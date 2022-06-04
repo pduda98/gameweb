@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { GameReviewsListProjection } from 'api/projections';
 import React from 'react';
 import { Rating } from 'react-simple-star-rating';
+import { toast } from 'react-toastify';
 
 const EditReviewView: React.FC = () => {
     const navigate = useNavigate();
@@ -30,24 +31,46 @@ const EditReviewView: React.FC = () => {
         const config = {
             headers: { Authorization: `Bearer ${getJwtToken()}` }
         };
-        let res = await api.put(`games/${gameId}/reviews/${reviewId}`,
+        try{
+            let res = await api.put(`games/${gameId}/reviews/${reviewId}`,
+                {
+                    title: title.value,
+                    content: reviewContent.value,
+                    rating: rating===0 ? null: rating/10
+                },
+                config
+            );
+            if (res.data != null && res.status === 200)
             {
-                title: title.value,
-                content: reviewContent.value,
-                rating: rating===0 ? null: rating/10
-            },
-            config
-        );
-        if (res.data != null && res.status === 200)
-        {
-            navigate(`/games/${gameId}/`, { replace: true });
+                toast.success('Review edited successfully!', {
+                    position: "bottom-left",
+                    autoClose: 4000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    });
+                navigate(`/games/${gameId}/`, { replace: true });
+            }
+        }
+        catch{
+            toast.error('Edit unsuccessful!', {
+                position: "bottom-left",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                });
         }
     };
 
     return (
     <div className="form" onSubmit={handleSubmit} >
         <form autoComplete="off">
-            <Rating 
+            <Rating
                 onClick={handleRating}
                 ratingValue={rating}
                 iconsCount={10}
@@ -55,7 +78,6 @@ const EditReviewView: React.FC = () => {
                 size = {20}
                 fillColor={"#8f8cae"}
             />
-                
             <div className="input-container">
                 <label>Title </label>
                 <input type="text" id="title" defaultValue={resultReview?.title} required />
@@ -65,7 +87,7 @@ const EditReviewView: React.FC = () => {
                 <textarea id="review-content" defaultValue={resultReview?.content} required />
             </div>
             <div className="button-container">
-                <input type="submit" />
+                <input type="submit" value="Submit"/>
             </div>
         </form>
     </div>

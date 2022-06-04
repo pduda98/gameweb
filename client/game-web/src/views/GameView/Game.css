@@ -16,4 +16,4 @@
 .singleGame .developer { grid-area: 11 / 8 / 12 / 12; color: rgb(105, 105, 105);}
 
 .reviewHeader {color: rgb(105, 105, 105);}
-.review {background-color: rgb(243, 240, 255); padding: 20px; color: rgb(105, 105, 105);}
+.review {background-color: rgb(243, 240, 255); padding: 20px; color: rgb(105, 105, 105); margin-bottom: 10px;}
