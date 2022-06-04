@@ -26,6 +26,7 @@ export const getJwtToken = async(): Promise<string | null> => {
     if (!refreshToken)
         storage.removeItem("jwt");
         storage.removeItem("refreshToken");
+        storage.removeItem("userId");
         return null;
 
     let res: AxiosResponse<SignInResponse>;
@@ -34,6 +35,7 @@ export const getJwtToken = async(): Promise<string | null> => {
     } catch (e: any) {
         console.error('Token refresh request failed', e);
         storage.removeItem("jwt");
+        storage.removeItem("userId");
         storage.removeItem("refreshToken");
         return null;
     }
@@ -48,7 +50,7 @@ export const getJwtToken = async(): Promise<string | null> => {
     return newToken.val;
 }
 
-export function setTokens({ token, refreshToken, expirationTime }: SignInResponse) {
+export function setTokens({ token, refreshToken, expirationTime, userId}: SignInResponse) {
 
     const tokenObj: AccessTokenInStorage = {
         val: token,
@@ -57,6 +59,15 @@ export function setTokens({ token, refreshToken, expirationTime }: SignInRespons
 
     storage.setItem("jwt", JSON.stringify(tokenObj));
     storage.setItem("refreshToken", refreshToken);
+    storage.setItem("userId", userId);
+};
+
+export function getUserId() {
+    let userId = storage.getItem("userId");
+    if (userId===null){
+        return "";
+    }
+    return userId;
 };
 
 api.interceptors.request.use(async function (config: AxiosRequestConfig)

@@ -37,8 +37,8 @@ input[type="submit"] {
     margin-top: 10px;
     cursor: pointer;
     font-size: 15px;
-    background: #01d28e;
-    border: 1px solid #01d28e;
+    background: rgb(190,182,227);
+    border: 1px solid rgb(190,182,227);
     color: #fff;
     padding: 10px 20px;
 }

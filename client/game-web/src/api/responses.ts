@@ -45,6 +45,7 @@ export interface SignInResponse {
     token: string,
     refreshToken: string,
     expirationTime: string
+    userId: string
 }
 
 export interface SearchResponse {

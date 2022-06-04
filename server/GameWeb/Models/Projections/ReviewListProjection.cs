@@ -7,5 +7,6 @@ public class ReviewListProjection
     public string? Content { get; set; } = null!;
     public DateTime CreationTime { get; set; }
     public string UserName { get; set; } = null!;
+    public Guid UserId { get; set; }
     public int? Rating { get; set; }
 }

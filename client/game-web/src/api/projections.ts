@@ -43,6 +43,7 @@ export interface GameReviewsListProjection {
     content : string,
     creationTime: Date,
     userName: string,
+    userId: string,
     rating: number
 }
 

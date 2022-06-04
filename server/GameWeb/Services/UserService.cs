@@ -99,7 +99,8 @@ public class UserService : IUserService
         {
             Token = jwtToken,
             RefreshToken = refreshToken.Token,
-            ExpirationTime = expirationTime
+            ExpirationTime = expirationTime,
+            UserId = user.Guid
         };
 
         return response;
@@ -146,7 +147,8 @@ public class UserService : IUserService
         {
             Token = jwtToken,
             RefreshToken = refreshToken.Token,
-            ExpirationTime = expirationTime
+            ExpirationTime = expirationTime,
+            UserId = user.Guid
         };
 
         return response;
