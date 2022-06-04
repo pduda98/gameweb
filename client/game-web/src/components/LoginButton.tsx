@@ -24,8 +24,12 @@ const LoginButton: React.FC = () =>{
 
     return (
       <div className="loginButton">
-        {(token) ? <NavLink to='/' className="login" style={{ textDecoration: 'none' }} onClick={LogoutProcedure}>LOGOUT</NavLink>
-          : <NavLink to="/login" className="login" style={{ textDecoration: 'none' }} onClick={() => useEffect}>LOGIN</NavLink>}
+        {(token) ?
+          <li><NavLink to='/' className="login" style={{ textDecoration: 'none' }} onClick={LogoutProcedure}>LOGOUT</NavLink></li>
+          
+          :
+          <><li><NavLink to="/signup" className="login" style={{ textDecoration: 'none' }}>SIGNUP</NavLink></li><li><NavLink to="/login" className="login" style={{ textDecoration: 'none' }} onClick={() => useEffect}>LOGIN</NavLink></li></>
+        }
       </div>
   )
 };

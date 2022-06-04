@@ -9,7 +9,6 @@ const Navbar=() =>{
                         <li><NavLink to="/games" style={{ textDecoration: 'none' }}>GAMES</NavLink></li>
                         <li><NavLink to="/developers" style={{ textDecoration: 'none' }}>DEVELOPERS</NavLink></li>
                         <li><NavLink to="/genres" style={{ textDecoration: 'none' }}>GENRES</NavLink></li>
-                        <li><NavLink to="/signup" style={{ textDecoration: 'none' }}>SIGNUP</NavLink></li>
                     </ul>
                 </div>
             </nav>
