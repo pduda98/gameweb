@@ -40,7 +40,7 @@ public class UserController : ControllerBase
         }
         catch (AuthenticationException)
         {
-            return Forbid();
+            return StatusCode(StatusCodes.Status403Forbidden);
         }
 
     }

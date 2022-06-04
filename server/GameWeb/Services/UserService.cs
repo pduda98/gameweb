@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using GameWeb.Exceptions;
 using GameWeb.Helpers.Interfaces;
 using GameWeb.Models;
@@ -131,7 +132,7 @@ public class UserService : IUserService
             .FirstOrDefaultAsync(x => x.Name == request.UserName);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-            throw new Exception();
+            throw new AuthenticationException();
 
         var expirationTime = DateTime.UtcNow.AddMinutes(15);
         var jwtToken = _jwtHelper.GenerateJwtToken(user, expirationTime);
