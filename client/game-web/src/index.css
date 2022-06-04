@@ -63,6 +63,16 @@ code {
   box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB;
   }
 
+  .form {
+    background-color: rgb(243, 240, 255);
+
+    box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB; 
+    padding-bottom: 0.25em;
+    padding-top: 0.5em;   
+    padding: 0.25em;
+    padding-top: 0.5em;
+    }
+
 .div1 { grid-area: 1 / 1 / 6 / 5; margin-top: 30px;
   margin-right: 150px;
   margin-left: 80px;}
@@ -106,15 +116,43 @@ code {
   margin-top: 50px;
   }
   
-  .div9 { grid-area: 1 / 1 / 4 / 4; margin-top: 30px;
-    margin-right: 150px;
-    margin-left: 80px}
-  .div10 { grid-area: 1 / 4 / 2 / 11; color: rgb(162, 161, 171);margin-top: 30px;
-    margin-right: 150px;
-    margin-left: 80px;}
-  .div11 { grid-area: 2 / 4 / 3 / 11; color: rgb(162, 161, 171);margin-top: 30px;
-    margin-right: 150px;
-    margin-left: 80px;}
-  .div12 { grid-area: 3 / 4 / 4 / 11; color: rgb(93, 92, 97);margin-top: 30px;
-    margin-right: 150px;
-    margin-left: 80px;}
+.div9 { grid-area: 1 / 1 / 4 / 4; margin-top: 30px;
+  margin-right: 150px;
+  margin-left: 80px}
+.div10 { grid-area: 1 / 4 / 2 / 11; color: rgb(162, 161, 171);margin-top: 30px;
+  margin-right: 150px;
+  margin-left: 80px;}
+.div11 { grid-area: 2 / 4 / 3 / 11; color: rgb(162, 161, 171);margin-top: 30px;
+  margin-right: 150px;
+  margin-left: 80px;}
+.div12 { grid-area: 3 / 4 / 4 / 11; color: rgb(93, 92, 97);margin-top: 30px;
+  margin-right: 150px;
+  margin-left: 80px;}
+input[type="text"],
+input[type="text"]:focus   
+{
+  background: transparent;
+  border: none;
+  outline-width: 0;
+    padding: 0.25em;
+    box-shadow: 4px 4px 3px -3px #A2A1AB, 4px 4px 3px -3px #A2A1AB;
+}
+input[type=password],
+input[type=password]:focus   
+{
+  background: transparent;
+  border: none;
+  outline-width: 0;
+    padding: 0.25em;
+    box-shadow: 4px 4px 3px -3px #A2A1AB, 4px 4px 3px -3px #A2A1AB;
+}
+
+textarea,
+textarea:focus   
+{
+  background: transparent;
+  border: none;
+    padding: 0.25em;
+    outline-width: 0;
+  box-shadow: 4px 4px 3px -3px #A2A1AB, 4px 4px 3px -3px #A2A1AB;
+}
