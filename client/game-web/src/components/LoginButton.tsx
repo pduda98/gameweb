@@ -13,8 +13,6 @@ const LoginButton: React.FC = () =>{
     const location = useLocation();
 
     useEffect(() => {
-      console.log(token);
-
       if (!token) {
           getToken();
       }
