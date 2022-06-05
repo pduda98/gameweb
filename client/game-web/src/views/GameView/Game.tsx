@@ -71,7 +71,7 @@ const Game: React.FC = () => {
     return (
         <div>
             <div className="singleGame" key={game.id}>
-                <div className="image"><img src={getImagePath(game.id)} alt="game cover" width="250" height="300"/></div>
+                <div className="image"><img src={getImagePath(game.id)} alt="game cover" width="250"/></div>
                 <div className="title">
                     <h2>{game.name}</h2><br></br>
                     {game.releaseDate.toString()}
@@ -91,15 +91,20 @@ const Game: React.FC = () => {
                     />
                 </div>
                 <div className="genres">
-                    <p><b>Genres:</b></p><br></br>
-                    <>
+                    <b>Genres:</b><br></br>
                         {game.genres.map((genre) =>
-                            <p key={genre}>{genre}</p>
+                        <>
+                            <i>{genre}</i><br></br>
+                        </>
                         )}
-                    </>
                 </div>
-                <div className="description">Description: {game.description}</div>
-                <div className="developer"><p><b>Developer: {game.developer.name}</b></p></div>
+                <div className="description"><b>Description:</b><br></br> {game.description}</div>
+                <div className="developer">
+                    <b>Developer: <Link to={`/developers/${game.developer.id}`}>
+                            {game.developer.name}
+                        </Link>
+                    </b>
+                </div>
             </div>
             <h1 className="reviewHeader">REVIEWS</h1>
             {reviews!==undefined && !reviews.some(x => x.userId === getUserId()) && getUserId()!=="" &&
@@ -120,7 +125,16 @@ const Game: React.FC = () => {
                     }
                     </div>
                     <div>at {creationTime.toString()}</div>
-                    <div>{rating}/10</div>
+                    <div>
+                        <Rating
+                        ratingValue={rating*10}
+                        iconsCount={10}
+                        initialValue={rating*10}
+                        readonly={true}
+                        size = {20}
+                        fillColor={"#8f8cae"}
+                    />
+                    </div>
                     <div>{content}</div>
                 </div>
                 ]
