@@ -84,10 +84,11 @@ grid-template-rows: repeat(4, 1fr);
   margin-left: 30px;}
 .div2 { grid-area: 4 / 1 / 5 / 2;  color: rgb(93, 92, 97);
   margin-right: 10px;
-  margin-top:  0px;
+  margin-top: 0px;
+  margin-bottom: 10px;
   margin-left: 30px;}
 
-.div3 { grid-area:  1 / 2 / 2 / 4; color: rgb(162, 161, 171);
+.div3 { grid-area:  1 / 2 / 2 / 4; color: rgb(93, 92, 97);
   margin-top: 30px;
   margin-right: 10px;
   margin-left: 30px;}

@@ -13,7 +13,7 @@ const Searchbar=() =>{
             </div>
             <div className="search">
                 <input
-                    placeholder="Szukaj gier lub deweloperów"
+                    placeholder="Search for games or developers"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />

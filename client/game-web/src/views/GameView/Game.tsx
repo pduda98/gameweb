@@ -74,7 +74,7 @@ const Game: React.FC = () => {
                 <div className="image"><img src={getImagePath(game.id)} alt="game cover" width="250"/></div>
                 <div className="title">
                     <h2>{game.name}</h2><br></br>
-                    {game.releaseDate.toString()}
+                    {game.releaseDate.toString().split("T")[0]}
                 </div>
                 <div className="ratings">
                     {(game.usersRating != null) ? `Your rating: ${game.usersRating}` : "No rating"}
@@ -124,7 +124,7 @@ const Game: React.FC = () => {
                         </div>
                     }
                     </div>
-                    <div>at {creationTime.toString()}</div>
+                    <div>at {creationTime.toString().split("T")[0]}</div>
                     <div>
                         <Rating
                         ratingValue={rating*10}

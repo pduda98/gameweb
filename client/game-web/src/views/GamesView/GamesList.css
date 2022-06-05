@@ -103,3 +103,25 @@ input[type="submit"] {
     margin: 0 10px;
     padding: 0 10px;
 }
+
+.filterYear{
+    width: 50%;
+    margin: 0.5em;
+    padding-top:5px!important;padding-bottom:5px!important;
+    display: flex;
+    justify-content: center;
+    background: rgb(243, 240, 255);
+}
+
+.filterYear label {
+    padding: 10px !important;
+}
+.filterYear input {
+    padding: 20px !important;
+    border:none;
+    width:100%;
+    flex: 1;
+
+    outline: none;
+    color: rgb(93, 92, 97);
+}

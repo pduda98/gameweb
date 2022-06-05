@@ -25,9 +25,9 @@ const LastReviewsListComponent: React.FC = () => {
             [
                 <div className="parent">
                     <div className="div1"><img src={getImagePath(game.id)} alt="Girl in a jacket" width="250"/></div>
-                    <div className="div2"> 
-                    
-                    <b>{game.averageRating}</b> from {game.ratingsCount} ratings 
+                    <div className="div2">
+
+                    <b>Average: {game.averageRating}</b> from {game.ratingsCount} ratings
                     <Rating
                             ratingValue={game.averageRating*10}
                             iconsCount={10}

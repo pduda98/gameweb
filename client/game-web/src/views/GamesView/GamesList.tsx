@@ -73,7 +73,10 @@ const GamesList: React.FC = () => {
             <button type="button" className="collapsible" onClick={displayFilters}>Filter</button>
             <fieldset>
                 <div id="filters">
-                    <input type="text" placeholder="Year" value={year} onChange={handleChange}/><br></br>
+                    <div className="filterYear">
+                        <label>Release year: </label>
+                        <input type="text" placeholder="Year" value={year} onChange={handleChange}/><br></br>
+                    </div>
                     <div className='filterGenresWrapper'>
                         <label htmlFor='all' className='filterLabel'>
                             <input id='all' type="radio" name='filter' className='filterRadio' value='all' checked={filter === 'all'}
@@ -94,7 +97,9 @@ const GamesList: React.FC = () => {
                             ) : ""
                         }
                     </div>
-                    <input type='submit' className="submitFilter" onClick={handleFilter} value="Submit"/>
+                    <div className="button-container">
+                        <input type='submit' className="submitFilter" onClick={handleFilter} value="Submit"/>
+                    </div>
                 </div>
             </fieldset>
         { games.flatMap(({ id, name, averageRating, usersRating, genres}) => (
