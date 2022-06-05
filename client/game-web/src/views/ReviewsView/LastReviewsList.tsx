@@ -2,6 +2,7 @@ import { LastReviewsList } from 'api/responses';
 import { useEffect, useState } from 'react';
 import {api} from 'api/index';
 import { Link } from 'react-router-dom';
+import { getImagePath } from 'components/ImageView';
 
 const LastReviewsListComponent: React.FC = () => {
     const [result, setResult] = useState<LastReviewsList | null>(null);
@@ -22,7 +23,7 @@ const LastReviewsListComponent: React.FC = () => {
         {reviews.flatMap(({ title, content, userName , rating, game, }) => (
             [
                 <div className="parent">
-                    <div className="div1"><img src="../gamecover.jpg" alt="Girl in a jacket" width="250" height="300"/></div>
+                    <div className="div1"><img src={getImagePath(game.id)} alt="Girl in a jacket" width="250" height="300"/></div>
                     <div className="div2"> <b>{game.averageRating}</b> from {game.ratingsCount} ratings</div>
                     <div className="div3">
                         <p><b>Genres:</b></p><br></br>

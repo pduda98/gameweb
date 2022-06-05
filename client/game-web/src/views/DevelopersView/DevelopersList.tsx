@@ -2,6 +2,7 @@ import { DevelopersList } from 'api/responses';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {api} from 'api/index';
+import { getImagePath } from 'components/ImageView';
 
 const DevelopersListView: React.FC = () => {
     const [result, setResult] = useState<DevelopersList | null>(null);
@@ -22,7 +23,7 @@ const DevelopersListView: React.FC = () => {
         { developers.flatMap(({ id, name, establishmentYear, location}) => (
             [
                 <div className="element-list" key={id}>
-                    <div className="div9"><img src="gamecover.jpg" alt="Girl in a jacket" width="250" height="250"/></div>
+                    <div className="div9"><img src={getImagePath(id)} alt="developer image" width="250" height="250"/></div>
                     <div className="div10"><h1><Link to={`/developers/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></h1></div>
                     <div className="div11"><b>Developer established in {establishmentYear}</b></div>
                     <div className="div12"><b>Locaed in {location}</b></div>

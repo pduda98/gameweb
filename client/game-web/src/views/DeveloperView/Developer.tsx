@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import 'views/GamesView/GamesList.css'
 import {api} from 'api/index';
-import imagePath from "..\\public\\gamecover.jpg"
+import { getImagePath } from 'components/ImageView';
 
 const Developer: React.FC = () => {
     const [result, setResult] = useState<DeveloperResponse | null>(null);
     const { id } = useParams();
+
 
     useEffect(() => {
         api.get<DeveloperResponse>(`https://localhost:7205/api/v1/developers/${id}`).then(res => setResult(res.data))
@@ -18,10 +19,11 @@ const Developer: React.FC = () => {
     }
 
     let developer = result;
+    console.log(result.id);
     return (
         <div>
             <div className="parent">
-                <div className="div1"><img src={imagePath} alt="asd" width="250" height="300"/></div>
+                <div className="div1"><img src={getImagePath(developer.id)} alt="asd" width="250" height="300"/></div>
                 <div className="div2"> <b>
                     <a target="_blank" href={developer.webAddress}>{developer.webAddress}</a></b></div>
                 <div className="div3">
@@ -38,7 +40,7 @@ const Developer: React.FC = () => {
                 {developer.games.flatMap(({ id , name , averageRating ,usersRating ,genres }) => (
                     [
                         <div className="element-list">
-                        <div className="div9"><img src={imagePath} alt="asd" width="200" height="200"/></div>
+                        <div className="div9"><img src={getImagePath(id)} alt="asd" width="200" height="200"/></div>
                         <div className="div10"><Link to={`/games/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></div>
                         <div className="div11"><b>{averageRating}</b></div>
                         <div className="div12">

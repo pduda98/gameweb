@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './Game.css'
 import {api, getJwtToken, getUserId} from 'api/index';
-import imagePath from "..\\public\\gamecover.jpg"
 import plusImage from "..\\public\\plus.png"
 import { Rating } from 'react-simple-star-rating'
 import { toast } from 'react-toastify';
+import { getImagePath } from 'components/ImageView';
 
 
 const Game: React.FC = () => {
@@ -71,7 +71,7 @@ const Game: React.FC = () => {
     return (
         <div>
             <div className="singleGame" key={game.id}>
-                <div className="image"><img src={imagePath} alt="nfs" width="250" height="300"/></div>
+                <div className="image"><img src={getImagePath(game.id)} alt="game cover" width="250" height="300"/></div>
                 <div className="title">
                     <h2>{game.name}</h2><br></br>
                     {game.releaseDate.toString()}
