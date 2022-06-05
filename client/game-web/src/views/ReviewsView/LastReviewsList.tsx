@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {api} from 'api/index';
 import { Link } from 'react-router-dom';
 import { getImagePath } from 'components/ImageView';
+import { Rating } from 'react-simple-star-rating';
 
 const LastReviewsListComponent: React.FC = () => {
     const [result, setResult] = useState<LastReviewsList | null>(null);
@@ -18,30 +19,50 @@ const LastReviewsListComponent: React.FC = () => {
 
     let reviews = result.reviews;
     return (
-        <div>
+        <div className='content'>
 
         {reviews.flatMap(({ title, content, userName , rating, game, }) => (
             [
                 <div className="parent">
-                    <div className="div1"><img src={getImagePath(game.id)} alt="Girl in a jacket" width="250" height="300"/></div>
-                    <div className="div2"> <b>{game.averageRating}</b> from {game.ratingsCount} ratings</div>
-                    <div className="div3">
-                        <p><b>Genres:</b></p><br></br>
+                    <div className="div1"><img src={getImagePath(game.id)} alt="Girl in a jacket" width="250"/></div>
+                    <div className="div2"> 
+                    
+                    <b>{game.averageRating}</b> from {game.ratingsCount} ratings 
+                    <Rating
+                            ratingValue={game.averageRating*10}
+                            iconsCount={10}
+                            initialValue={game.averageRating*10}
+                            readonly={true}
+                            size = {20}
+                            fillColor={"#8f8cae"} /><br></br><br></br>
+                        <b>Genres:</b><br></br>
                         {game.genres.map((genre) =>
-                            <p>{genre}</p>
+                        <>
+                            <i>{genre}</i><br></br>
+                        </>
                         )}
                     </div>
-                    <div className="div4"><h2>{title}</h2></div>
-                    <div className="div5">
-                        <h3><b>{game.name}</b> ({game.releaseYear})</h3>
-                        <p><b>
-                        <Link to={`/developers/${game.developer.id}`}>{game.developer.name}</Link>
-                        
-                        </b></p>
+                    <div className="div3"><h2>{title}</h2></div>
+                    <div className="div4">
+                        <h3>
+                            <Link to={`/games/${game.id}`}>
+                                <b>{game.name}</b> ({game.releaseYear})
+                            </Link>
+                        </h3>
+                        <b>
+                            <Link to={`/developers/${game.developer.id}`}>{game.developer.name}</Link>
+                        </b>
                     </div>
-                    <div className="div6">Review by <b>{userName}</b></div>
-                    <div className="div7">{rating}/10</div>
-                    <div className="div8">{content}</div>
+                    <div className="div5">Review by <b>{userName}</b><br></br>{rating}/10<br></br>
+                    <Rating
+                            ratingValue={rating*10}
+                            iconsCount={10}
+                            initialValue={rating*10}
+                            readonly={true}
+                            size = {20}
+                            fillColor={"#8f8cae"} />
+                    </div>
+                    <div className="div6">{content}</div>
                 </div>
             ]
             ))}

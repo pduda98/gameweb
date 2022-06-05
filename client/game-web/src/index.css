@@ -33,6 +33,7 @@ code {
   min-height: calc(100vh);
   max-width: 800px;
   margin: 0 auto;
+  margin-top: 100px;
 }
 
 #element {
@@ -54,55 +55,55 @@ code {
   }
 .parent {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 10px;
   grid-row-gap: 10px;
    background-color: rgb(243, 240, 255);
   margin-top: 50px;
   box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB;
   }
-
+.main-developer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+   background-color: rgb(243, 240, 255);
+  margin-top: 50px;
+  box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB;
+  }
   .form {
     background-color: rgb(243, 240, 255);
     box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB; 
-    padding-bottom: 0.25em;
-    padding-top: 0.5em;   
-    padding: 0.25em;
-    padding-top: 0.5em;
+    padding-top: 1px;
     }
 
-.div1 { grid-area: 1 / 1 / 6 / 5; margin-top: 30px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div2 { grid-area: 6 / 1 / 8 / 5; color: rgb(93, 92, 97);
-  margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div3 { grid-area: 8 / 1 / 11 / 5; color: rgb(93, 92, 97);
-  margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div4 { grid-area: 1 / 5 / 2 / 11; color: rgb(162, 161, 171);
+.div1 { grid-area: 1 / 1 / 4 / 2;  margin-top: 30px;
+  margin-right: 10px;
+  margin-left: 30px;}
+.div2 { grid-area: 4 / 1 / 5 / 2;  color: rgb(93, 92, 97);
+  margin-right: 10px;
+  margin-top:  0px;
+  margin-left: 30px;}
+
+.div3 { grid-area:  1 / 2 / 2 / 4; color: rgb(162, 161, 171);
   margin-top: 30px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div5 { grid-area: 2 / 5 / 3 / 11; color: rgb(162, 161, 171);
+  margin-right: 10px;
+  margin-left: 30px;}
+.div4 { grid-area: 2 / 2 / 3 / 4; color: rgb(162, 161, 171);
   margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div6 { grid-area: 3 / 5 / 4 / 11; color: rgb(162, 161, 171);
+  margin-right: 10px;
+  margin-left: 30px;}
+.div5 { grid-area:3 / 2 / 4 / 4; color: rgb(162, 161, 171);
   margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div7 { grid-area: 4 / 5 / 5 / 11; color: rgb(93, 92, 97);
+  margin-right: 10px;
+  margin-left: 30px;}
+
+.div6 { grid-area:4 / 2 / 5 / 4; color: rgb(93, 92, 97);
   margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
-.div8 { grid-area: 5 / 5 / 11 / 11; color: rgb(93, 92, 97);
-  margin-top: 10px;
-  margin-right: 150px;
-  margin-left: 80px;}
+  margin-right: 10px;
+  margin-left: 30px;}
 
 
 .element-list {
@@ -113,6 +114,7 @@ code {
   grid-row-gap: 0px;
   background-color: rgb(243, 240, 255);
   margin-top: 50px;
+  box-shadow: 5px 0px 3px -3px #A2A1AB, 5px 5px 3px -3px #A2A1AB;
   }
   
 .div9 { grid-area: 1 / 1 / 4 / 4; margin-top: 30px;
@@ -155,3 +157,9 @@ textarea:focus
     outline-width: 0;
   box-shadow: 4px 4px 3px -3px #A2A1AB, 4px 4px 3px -3px #A2A1AB;
 }
+
+
+
+
+
+

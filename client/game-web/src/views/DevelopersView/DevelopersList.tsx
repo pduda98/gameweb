@@ -23,10 +23,10 @@ const DevelopersListView: React.FC = () => {
         { developers.flatMap(({ id, name, establishmentYear, location}) => (
             [
                 <div className="element-list" key={id}>
-                    <div className="div9"><img src={getImagePath(id)} alt="developer image" width="250" height="250"/></div>
+                    <div className="div9"><img src={getImagePath(id)} alt="developer image" width="200"/></div>
                     <div className="div10"><h1><Link to={`/developers/${id}`} style={{ textDecoration: 'none' }}>{name}</Link></h1></div>
                     <div className="div11"><b>Developer established in {establishmentYear}</b></div>
-                    <div className="div12"><b>Locaed in {location}</b></div>
+                    <div className="div12"><b>Located in {location}</b></div>
                 </div>
             ]
             ))}
