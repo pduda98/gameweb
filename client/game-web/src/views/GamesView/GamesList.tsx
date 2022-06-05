@@ -44,12 +44,12 @@ const GamesList: React.FC = () => {
     }
 
     const handleFilter = async () => {
-        if(filter == 'all'){
-            (year != '') ? await api.get<TopGamesList>(`games?year=${year}`).then(res => setResultGames(res.data))
+        if(filter === 'all'){
+            (year !== '') ? await api.get<TopGamesList>(`games?year=${year}`).then(res => setResultGames(res.data))
             :await api.get<TopGamesList>('games').then(res => setResultGames(res.data))
         }
         else{
-            (year != '') ? await api.get<TopGamesList>(`games?genre=${filter}&year=${year}`).then(res => setResultGames(res.data))
+            (year !== '') ? await api.get<TopGamesList>(`games?genre=${filter}&year=${year}`).then(res => setResultGames(res.data))
             :await api.get<TopGamesList>(`games?genre=${filter}`).then(res => setResultGames(res.data))
         }
         toast.info('Filters applied', {

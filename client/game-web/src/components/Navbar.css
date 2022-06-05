@@ -29,5 +29,6 @@
     color:rgb(93, 92, 97);
 }
 .loginButton{
-    float:right!important;
+    position:absolute;
+    right: 0;
 }
