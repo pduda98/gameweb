@@ -231,40 +231,15 @@ public class GameService : IGameService
         }
 
         games = await query.Select(x => new GameListProjection
-                {
-                    Id = x.Guid,
-                    Name = x.Name,
-                    AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
-                    UsersRating = _userHelper.GetUsersGameRating(x, userId),
-                    Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
-                })
-                .OrderBy(x => x.AverageRating)
-                .ToListAsync(cancellationToken);
-        // if (userId != null)
-        // {
-        //      games = await query.Select(x => new GameListProjection
-        //         {
-        //             Id = x.Guid,
-        //             Name = x.Name,
-        //             AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
-        //             UsersRating = _userHelper.GetUsersGameRating(x, userId),
-        //             Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
-        //         })
-        //         .OrderBy(x => x.AverageRating)
-        //         .ToListAsync(cancellationToken);
-        // }
-        // else
-        // {
-        //     games = await query.Select(x => new GameListProjection
-        //         {
-        //             Id = x.Guid,
-        //             Name = x.Name,
-        //             AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
-        //             Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
-        //         })
-        //         .OrderBy(x => x.AverageRating)
-        //         .ToListAsync(cancellationToken);
-        // }
+            {
+                Id = x.Guid,
+                Name = x.Name,
+                AverageRating = Convert.ToInt64(x.Ratings.Select(r => r.Value).Average()),
+                UsersRating = _userHelper.GetUsersGameRating(x, userId),
+                Genres = x.GameGenres.Select(y => y.Genre.Name).ToList(),
+            })
+            .OrderByDescending(x => x.AverageRating)
+            .ToListAsync(cancellationToken);
 
         return new GamesListResponse(games);
     }
