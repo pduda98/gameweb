@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GameWeb.Models.Entities
+﻿namespace GameWeb.Models.Entities
 {
     public partial class Developer
     {
@@ -16,6 +13,7 @@ namespace GameWeb.Models.Entities
         public string? Description { get; set; }
         public string? WebAddress { get; set; }
         public Guid Guid { get; set; }
+        public string? Location { get; set; }
 
         public virtual ICollection<Game> Games { get; set; }
     }

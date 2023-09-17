@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GameWeb.Models.Entities
+﻿namespace GameWeb.Models.Entities
 {
     public partial class User
     {
         public User()
         {
             Ratings = new HashSet<Rating>();
+            RefreshTokens = new HashSet<RefreshToken>();
             Reviews = new HashSet<Review>();
         }
 
@@ -20,6 +18,7 @@ namespace GameWeb.Models.Entities
 
         public virtual UserRole Role { get; set; } = null!;
         public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
 }

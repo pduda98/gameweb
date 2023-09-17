@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using GameWeb.Models.Entities;
-using System;
+using GameWeb.Helpers;
 
 namespace GameWeb.Models
 {
@@ -20,6 +20,7 @@ namespace GameWeb.Models
         public virtual DbSet<GameGenre> GameGenres { get; set; } = null!;
         public virtual DbSet<Genre> Genres { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
@@ -28,7 +29,7 @@ namespace GameWeb.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? throw new ArgumentException();
+                string connectionString = Environment.GetEnvironmentVariable(Consts.ConnectionStringEnvVarName) ?? throw new ArgumentException();
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
@@ -39,9 +40,10 @@ namespace GameWeb.Models
             {
                 entity.ToTable("developer");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => e.WebAddress, "Unique_developer_web")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description)
                     .IsUnicode(false)
@@ -51,7 +53,12 @@ namespace GameWeb.Models
 
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
+                entity.Property(e => e.Location)
+                    .IsUnicode(false)
+                    .HasColumnName("location");
+
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
@@ -66,15 +73,18 @@ namespace GameWeb.Models
             {
                 entity.ToTable("game");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Description)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
 
                 entity.Property(e => e.DeveloperId).HasColumnName("developer_id");
 
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
@@ -86,7 +96,6 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Developer)
                     .WithMany(p => p.Games)
                     .HasForeignKey(d => d.DeveloperId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_developer_id");
             });
 
@@ -94,9 +103,10 @@ namespace GameWeb.Models
             {
                 entity.ToTable("game_genre");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => new { e.GameId, e.GenreId }, "Unique_gameId_genreId")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.GameId).HasColumnName("game_id");
 
@@ -105,13 +115,11 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.GameGenres)
                     .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_genre_game_id");
 
                 entity.HasOne(d => d.Genre)
                     .WithMany(p => p.GameGenres)
                     .HasForeignKey(d => d.GenreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_game_genre_genre_id");
             });
 
@@ -119,13 +127,15 @@ namespace GameWeb.Models
             {
                 entity.ToTable("genre");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => e.Name, "Unique_genre_name")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("name");
             });
@@ -134,30 +144,59 @@ namespace GameWeb.Models
             {
                 entity.ToTable("rating");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => new { e.GameId, e.UserId }, "Uni")
+                    .IsUnique();
 
-                entity.Property(e => e.ReviewId).HasColumnName("review_id");
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.GameId).HasColumnName("game_id");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.Value).HasColumnName("value");
 
+                entity.HasOne(d => d.Game)
+                    .WithMany(p => p.Ratings)
+                    .HasForeignKey(d => d.GameId)
+                    .HasConstraintName("FK_rating_game_id");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_rating_user_id");
+                    .HasConstraintName("FK_rating_user");
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("refresh_token");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ExpirationTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("expiration_time");
+
+                entity.Property(e => e.Token)
+                    .IsRequired()
+                    .IsUnicode(false)
+                    .HasColumnName("token");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.RefreshTokens)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_refresh_token_user");
             });
 
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.ToTable("review");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => new { e.UserId, e.GameId }, "Uni")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreationTime)
                     .HasColumnType("datetime")
@@ -170,8 +209,6 @@ namespace GameWeb.Models
                 entity.Property(e => e.LastUpdateTime)
                     .HasColumnType("datetime")
                     .HasColumnName("last_update_time");
-
-                entity.Property(e => e.RatingId).HasColumnName("rating_id");
 
                 entity.Property(e => e.ReviewContent)
                     .HasColumnType("text")
@@ -187,18 +224,12 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_review_game_id");
-
-                entity.HasOne(d => d.Rating)
-                    .WithMany(p => p.Reviews)
-                    .HasForeignKey(d => d.RatingId)
-                    .HasConstraintName("FK_review_rating_id");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_review_user_id");
             });
 
@@ -206,11 +237,13 @@ namespace GameWeb.Models
             {
                 entity.ToTable("user");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => e.Email, "Unique_user_email")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("email");
@@ -218,11 +251,13 @@ namespace GameWeb.Models
                 entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
 
                 entity.Property(e => e.PasswordHash)
+                    .IsRequired()
                     .IsUnicode(false)
                     .HasColumnName("password_hash");
 
@@ -231,7 +266,7 @@ namespace GameWeb.Models
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_user_user_role");
             });
 
@@ -239,9 +274,10 @@ namespace GameWeb.Models
             {
                 entity.ToTable("user_role");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasIndex(e => e.Name, "Unique_user_role_name")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(50)
@@ -249,6 +285,7 @@ namespace GameWeb.Models
                     .HasColumnName("description");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("name");
